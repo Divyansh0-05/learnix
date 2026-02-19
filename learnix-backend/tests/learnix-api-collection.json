@@ -1,0 +1,755 @@
+{
+    "info": {
+        "_postman_id": "8d3e9c5a-3f4b-4a38-9e70-11b0776e98f0",
+        "name": "Learnix API",
+        "description": "Comprehensive collection to test the Learnix Skill Barter Matchmaking Platform API.",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "Health Check",
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "http://localhost:5001/health",
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "5001",
+                    "path": [
+                        "health"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Auth",
+            "item": [
+                {
+                    "name": "Register",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "var jsonData = pm.response.json();",
+                                    "if (jsonData.data && jsonData.data.accessToken) {",
+                                    "    pm.environment.set(\"access_token\", jsonData.data.accessToken);",
+                                    "}",
+                                    "if (jsonData.data && jsonData.data.refreshToken) {",
+                                    "    pm.environment.set(\"refresh_token\", jsonData.data.refreshToken);",
+                                    "}",
+                                    "if (jsonData.data && jsonData.data.user && (jsonData.data.user.id || jsonData.data.user._id)) {",
+                                    "    pm.environment.set(\"userId\", jsonData.data.user.id || jsonData.data.user._id);",
+                                    "}"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"name\": \"Test User\",\n    \"email\": \"test@example.com\",\n    \"password\": \"Password123\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/auth/register",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "auth",
+                                "register"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Login",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "var jsonData = pm.response.json();",
+                                    "if (jsonData.data && jsonData.data.accessToken) {",
+                                    "    pm.environment.set(\"access_token\", jsonData.data.accessToken);",
+                                    "}",
+                                    "if (jsonData.data && jsonData.data.refreshToken) {",
+                                    "    pm.environment.set(\"refresh_token\", jsonData.data.refreshToken);",
+                                    "}",
+                                    "if (jsonData.data && jsonData.data.user && (jsonData.data.user.id || jsonData.data.user._id)) {",
+                                    "    pm.environment.set(\"userId\", jsonData.data.user.id || jsonData.data.user._id);",
+                                    "}"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"email\": \"test@example.com\",\n    \"password\": \"Password123\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/auth/login",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "auth",
+                                "login"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Get Me",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{access_token}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{base_url}}/auth/me",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "auth",
+                                "me"
+                            ]
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Users",
+            "item": [
+                {
+                    "name": "Search Users",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{base_url}}/users/search?query=javascript",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "users",
+                                "search"
+                            ],
+                            "query": [
+                                {
+                                    "key": "query",
+                                    "value": "javascript"
+                                }
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Get Profile",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{base_url}}/users/{{userId}}",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "users",
+                                "{{userId}}"
+                            ]
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Skills",
+            "item": [
+                {
+                    "name": "Add Offered Skill",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{access_token}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"skillName\": \"React Native\",\n    \"category\": \"Programming\",\n    \"level\": \"intermediate\",\n    \"type\": \"OFFERED\",\n    \"description\": \"I can teach React Native for mobile app development.\",\n    \"tags\": [\"mobile\", \"react\", \"native\"]\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/skills",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "skills"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Add Wanted Skill",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{access_token}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"skillName\": \"UI Design\",\n    \"category\": \"Design\",\n    \"level\": \"beginner\",\n    \"type\": \"WANTED\",\n    \"description\": \"I want to learn modern UI/UX design principles.\",\n    \"tags\": [\"design\", \"ui\", \"ux\"]\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/skills",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "skills"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Search Skills",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{base_url}}/skills/search?query=react",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "skills",
+                                "search"
+                            ],
+                            "query": [
+                                {
+                                    "key": "query",
+                                    "value": "react"
+                                }
+                            ]
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Matches",
+            "item": [
+                {
+                    "name": "Find Matches",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{access_token}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{base_url}}/matches/find?minScore=10",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "matches",
+                                "find"
+                            ],
+                            "query": [
+                                {
+                                    "key": "minScore",
+                                    "value": "10"
+                                }
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "My Matches",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{access_token}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{base_url}}/matches/my",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "matches",
+                                "my"
+                            ]
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Requests",
+            "item": [
+                {
+                    "name": "Send Request",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{access_token}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"receiverId\": \"{{otherUserId}}\",\n    \"matchId\": \"{{matchId}}\",\n    \"message\": \"Hey, I'd like to swap skills with you!\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/requests/send",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "requests",
+                                "send"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Get Pending Requests",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{access_token}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{base_url}}/requests/pending?type=received",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "requests",
+                                "pending"
+                            ],
+                            "query": [
+                                {
+                                    "key": "type",
+                                    "value": "received"
+                                }
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Accept Request",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{access_token}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "PUT",
+                        "header": [],
+                        "url": {
+                            "raw": "{{base_url}}/requests/{{requestId}}/accept",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "requests",
+                                "{{requestId}}",
+                                "accept"
+                            ]
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Chat",
+            "item": [
+                {
+                    "name": "Chat List",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{access_token}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{base_url}}/chat/list",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "chat",
+                                "list"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Send Message",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{access_token}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"matchId\": \"{{matchId}}\",\n    \"message\": \"Hello! Ready to start our skill swap?\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/chat/message",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "chat",
+                                "message"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Get Chat History",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{access_token}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{base_url}}/chat/{{matchId}}",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "chat",
+                                "{{matchId}}"
+                            ]
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Admin",
+            "item": [
+                {
+                    "name": "Dashboard Stats",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{access_token}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{base_url}}/admin/dashboard",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "admin",
+                                "dashboard"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Get All Users",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{access_token}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{base_url}}/admin/users",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "admin",
+                                "users"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Get Analytics",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{access_token}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{base_url}}/admin/analytics?timeframe=month",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "admin",
+                                "analytics"
+                            ],
+                            "query": [
+                                {
+                                    "key": "timeframe",
+                                    "value": "month"
+                                }
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Ban User",
+                    "request": {
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{access_token}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"reason\": \"Testing ban functionality\",\n    \"duration\": \"1\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/admin/users/{{otherUserId}}/ban",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "admin",
+                                "users",
+                                "{{otherUserId}}",
+                                "ban"
+                            ]
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        }
+    ],
+    "variable": [
+        {
+            "key": "base_url",
+            "value": "http://localhost:5001/api/v1",
+            "type": "string"
+        },
+        {
+            "key": "access_token",
+            "value": "",
+            "type": "string"
+        },
+        {
+            "key": "refresh_token",
+            "value": "",
+            "type": "string"
+        },
+        {
+            "key": "userId",
+            "value": "",
+            "type": "string"
+        },
+        {
+            "key": "otherUserId",
+            "value": "",
+            "type": "string"
+        },
+        {
+            "key": "offeredSkillId",
+            "value": "",
+            "type": "string"
+        },
+        {
+            "key": "wantedSkillId",
+            "value": "",
+            "type": "string"
+        },
+        {
+            "key": "matchId",
+            "value": "",
+            "type": "string"
+        },
+        {
+            "key": "requestId",
+            "value": "",
+            "type": "string"
+        }
+    ]
+}
