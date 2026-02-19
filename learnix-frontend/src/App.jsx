@@ -17,12 +17,14 @@ import AdminRoute from './components/auth/AdminRoute';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
+// import ChatTest from './pages/ChatTest'; // Removed
+import Chat from './pages/Chat'; // Real Chat Page
 import {
     Register,
     Profile,
     Skills,
     Matches,
-    Chat,
+    // Chat, // Removed placeholder
     AdminDashboard,
     Users
 } from './pages/Placeholders';
@@ -63,11 +65,19 @@ function App() {
                                             <Matches />
                                         </PrivateRoute>
                                     } />
-                                    <Route path="/chat/:matchId?" element={
+
+                                    <Route path="/chat" element={
                                         <PrivateRoute>
                                             <Chat />
                                         </PrivateRoute>
                                     } />
+                                    <Route path="/chat/:matchId" element={
+                                        <PrivateRoute>
+                                            <Chat />
+                                        </PrivateRoute>
+                                    } />
+
+                                    {/* Test Routes Removed */}
 
                                     {/* Admin Routes */}
                                     <Route path="/admin" element={

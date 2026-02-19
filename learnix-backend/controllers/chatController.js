@@ -63,6 +63,7 @@ exports.getChatHistory = async (req, res, next) => {
         res.status(200).json({
             success: true,
             data: {
+                match: await match.populate('user1 user2', 'name avatar'),
                 messages: messages.reverse(), // Return in chronological order
                 pagination: {
                     currentPage: parseInt(page),
