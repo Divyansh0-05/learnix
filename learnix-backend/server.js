@@ -34,14 +34,6 @@ app.use(cors({
 app.use(express.json({ limit: process.env.MAX_FILE_SIZE || '5mb' }));
 app.use(morgan('dev'));
 
-// Rate Limiting
-// const limiter = rateLimit({
-//     windowMs: (process.env.RATE_LIMIT_WINDOW || 15) * 60 * 1000,
-//     max: process.env.RATE_LIMIT_MAX_REQUESTS || 100,
-//     standardHeaders: true,
-//     legacyHeaders: false,
-// });
-// app.use(limiter);
 
 // Routes
 app.use('/api/v1/auth', require('./routes/auth'));

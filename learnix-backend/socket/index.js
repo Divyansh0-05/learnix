@@ -212,7 +212,6 @@ function setupChatHandlers(socket) {
                 message: messageObj
             });
 
-            // OFFLINE EMAIL ALERT (Only for the FIRST message)
             try {
                 const recipientRoom = `user:${recipientId}`;
                 const sockets = io.sockets.adapter.rooms.get(recipientRoom);

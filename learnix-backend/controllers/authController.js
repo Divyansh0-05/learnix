@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 const { sendEmail } = require('../utils/email');
 const logger = require('../utils/logger');
-const { getPasswordResetTemplate } = require('../utils/emailTemplates');
+const { getPasswordResetTemplate, getEmailVerificationTemplate } = require('../utils/emailTemplates');
 
 // @desc    Register user
 // @route   POST /api/auth/register
@@ -45,12 +45,8 @@ exports.register = async (req, res, next) => {
             await sendEmail({
                 email: user.email,
                 subject: 'Verify Your Email - Learnix',
-                template: 'emailVerification',
-                data: {
-                    name: user.name,
-                    verificationUrl
-                },
-                message: `Please verify your email by clicking: ${verificationUrl}` // Fallback if template logic isn't implemented in sendEmail
+                html: getEmailVerificationTemplate(verificationUrl, user.name),
+                message: `Please verify your email by clicking: ${verificationUrl}`
             });
         } catch (error) {
             logger.error('Email sending failed:', error);

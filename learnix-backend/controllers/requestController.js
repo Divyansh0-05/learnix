@@ -3,6 +3,7 @@ const Match = require('../models/Match');
 const User = require('../models/User');
 const { sendNotification } = require('../socket/notificationHandlers');
 const { sendEmail } = require('../utils/email');
+const { getConnectionRequestTemplate, getRequestAcceptedTemplate } = require('../utils/emailTemplates');
 const logger = require('../utils/logger');
 
 // @desc    Send connection request
@@ -88,17 +89,8 @@ exports.sendRequest = async (req, res, next) => {
                     email: receiver.email,
                     subject: `New Connection Request from ${req.user.name} on Learnix`,
                     message: `${req.user.name} wants to connect with you! "${message || 'No message provided'}"`,
-                    html: `
-                        <div style="font-family: sans-serif; color: #333;">
-                            <h2>New Connection Request!</h2>
-                            <p><strong>${req.user.name}</strong> sent you a connection request on Learnix.</p>
-                            ${message ? `<blockquote style="border-left: 4px solid #ddd; padding-left: 10px; color: #666;">${message}</blockquote>` : ''}
-                            <p>Log in to your dashboard to review and accept the request.</p>
-                            <a href="${process.env.CLIENT_URL}/dashboard" style="display: inline-block; padding: 10px 20px; background: #000; color: #fff; text-decoration: none; border-radius: 5px;">View Request</a>
-                        </div>
-                    `
+                    html: getConnectionRequestTemplate(`${process.env.CLIENT_URL}/dashboard`, req.user.name, message)
                 });
-                logger.info(`Offline email sent to ${receiver.email} for new request`);
             }
         } catch (emailErr) {
             logger.error('Failed to send offline request email', { error: emailErr.message });
@@ -195,14 +187,7 @@ exports.acceptRequest = async (req, res, next) => {
                         email: senderUser.email,
                         subject: `Request Accepted! You matched with ${req.user.name}`,
                         message: `Great news! ${req.user.name} accepted your connection request.`,
-                        html: `
-                            <div style="font-family: sans-serif; color: #333;">
-                                <h2>It's a Match!</h2>
-                                <p><strong>${req.user.name}</strong> accepted your connection request on Learnix.</p>
-                                <p>You can now start chatting and sharing skills!</p>
-                                <a href="${process.env.CLIENT_URL}/chat/${request.match}" style="display: inline-block; padding: 10px 20px; background: #000; color: #fff; text-decoration: none; border-radius: 5px;">Start Chatting</a>
-                            </div>
-                        `
+                        html: getRequestAcceptedTemplate(`${process.env.CLIENT_URL}/chat/${request.match}`, req.user.name)
                     });
                     logger.info(`Offline match email sent to ${senderUser.email}`);
                 }
