@@ -57,7 +57,7 @@ export default function ResetPassword() {
                 <title>Reset Password — Learnix</title>
             </Helmet>
             <StarryBackground />
-            <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem', position: 'relative', overflow: 'hidden' }}>
+            <div style={{ position: 'relative', width: '100%', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem', overflowX: 'hidden' }}>
                 <div style={{ position: 'absolute', top: '2rem', left: '2rem', zIndex: 10 }}>
                     <Link
                         to="/login"

@@ -40,13 +40,13 @@ exports.findMatches = async (req, res, next) => {
         // Calculate matches with scores
         const matchesWithScores = [];
 
-        console.log(`Found ${potentialUsers.length} potential users for matching`);
+
 
         for (const potentialUser of potentialUsers) {
             // Find mutual skills
             const commonSkills = findMutualMatches(currentUser, potentialUser);
 
-            console.log(`Checking match with ${potentialUser.name}: ${commonSkills.length} common skills`);
+
 
             if (commonSkills.length > 0) {
                 // Calculate compatibility score

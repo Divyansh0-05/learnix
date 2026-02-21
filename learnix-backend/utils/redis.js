@@ -54,7 +54,7 @@ redisClient.on('end', () => {
     }
 })();
 
-// Helper function to check connection status
+
 redisClient.getIsConnected = () => isConnected;
 
 module.exports = redisClient;

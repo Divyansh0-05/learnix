@@ -96,7 +96,7 @@ exports.initializeSocket = (server) => {
     return io;
 };
 
-// Helper function to join user's active matches
+
 async function joinUserMatches(socket) {
     try {
         const matches = await Match.find({
@@ -412,7 +412,7 @@ exports.joinMatchRoom = (userId, matchId) => {
     logger.info(`Force joined all sockets for User ${userIdStr} to room match:${matchIdStr}`);
 };
 
-// Helper to get IO instance
+
 exports.getIO = () => {
     if (!io) {
         throw new Error('Socket.IO not initialized');

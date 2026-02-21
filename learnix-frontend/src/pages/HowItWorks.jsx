@@ -38,7 +38,7 @@ export default function HowItWorks() {
                 <meta name="description" content="Learn how to get started with Learnix in four simple steps." />
             </Helmet>
 
-            <div style={{ minHeight: '100vh', background: '#000000', paddingTop: '64px', overflow: 'hidden' }}>
+            <div style={{ position: 'relative', width: '100%', minHeight: '100vh', background: '#000000', paddingTop: '64px', overflowX: 'hidden' }}>
 
                 {/* Background Glow */}
                 <div style={{

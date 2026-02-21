@@ -430,7 +430,7 @@ exports.canReview = async (req, res, next) => {
     }
 };
 
-// Helper function to update user's average rating
+
 async function updateUserRating(userId) {
     try {
         const result = await Review.aggregate([
@@ -460,7 +460,7 @@ async function updateUserRating(userId) {
     }
 }
 
-// Helper function to update trust score
+
 async function updateTrustScore(userId) {
     try {
         const user = await User.findById(userId);

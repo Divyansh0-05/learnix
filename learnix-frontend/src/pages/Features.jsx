@@ -49,7 +49,7 @@ export default function Features() {
                 <meta name="description" content="Everything Learnix offers to help you barter skills and grow." />
             </Helmet>
 
-            <div style={{ minHeight: '100vh', background: '#000000', paddingTop: '64px', overflow: 'hidden' }}>
+            <div style={{ position: 'relative', width: '100%', minHeight: '100vh', background: '#000000', paddingTop: '64px', overflowX: 'hidden' }}>
 
                 {/* Background Glow */}
                 <div style={{

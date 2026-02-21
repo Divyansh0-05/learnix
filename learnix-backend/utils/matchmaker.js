@@ -2,7 +2,7 @@ const User = require('../models/User');
 const Skill = require('../models/Skill');
 const Match = require('../models/Match');
 
-// Helper to convert level to numeric value
+
 const getLevelValue = (level) => {
     const levels = { 'beginner': 1, 'intermediate': 2, 'expert': 3 };
     return levels[level] || 1;
@@ -157,7 +157,7 @@ exports.updateMatchScores = async () => {
             await match.save();
         }
 
-        console.log(`Updated scores for ${matches.length} matches`);
+
     } catch (error) {
         console.error('Error updating match scores:', error);
     }

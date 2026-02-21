@@ -42,12 +42,12 @@ export const SocketProvider = ({ children }) => {
             });
 
             newSocket.on('connect', () => {
-                console.log('Socket connected');
+
                 setIsConnected(true);
             });
 
             newSocket.on('disconnect', () => {
-                console.log('Socket disconnected');
+
                 setIsConnected(false);
             });
 
@@ -92,7 +92,7 @@ export const SocketProvider = ({ children }) => {
             });
 
             newSocket.on('match_activated', ({ match }) => {
-                console.log('Match successfully activated:', match._id);
+
                 setMatches(prev => {
                     const exists = prev.some(m => String(m.matchId || m._id) === String(match._id || match.id));
                     if (exists) return prev;

@@ -12,6 +12,7 @@ import { SocketProvider } from './context/SocketContext';
 import Navbar from './components/common/Navbar';
 import Footer from './components/common/Footer';
 import PrivateRoute from './components/auth/PrivateRoute';
+import ScrollToTop from './components/common/ScrollToTop';
 
 // Pages — Public
 import Home from './pages/Home';
@@ -35,12 +36,24 @@ function Layout({ children }) {
     const location = useLocation();
     const isHome = location.pathname === '/';
     const isChat = location.pathname.startsWith('/chat');
+    const topRef = React.useRef(null);
+
+    React.useEffect(() => {
+        const timer = setTimeout(() => {
+            if (topRef.current) {
+                topRef.current.scrollIntoView({ behavior: 'instant', block: 'start' });
+            }
+        }, 100);
+        return () => clearTimeout(timer);
+    }, [location.pathname]);
+
     return (
-        <>
+        <div style={{ width: '100%' }}>
+            <div ref={topRef} style={{ position: 'absolute', top: 0, left: 0, height: '1px', width: '1px' }} />
             <Navbar />
             <main>{children}</main>
             {!isHome && !isChat && <Footer />}
-        </>
+        </div>
     );
 }
 
@@ -48,6 +61,7 @@ function App() {
     return (
         <HelmetProvider>
             <Router>
+                <ScrollToTop />
                 <AuthProvider>
                     <SocketProvider>
                         <Layout>

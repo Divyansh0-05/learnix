@@ -144,7 +144,7 @@ exports.getTrustHistory = async (req, res, next) => {
     }
 };
 
-// Helper function to calculate trust breakdown
+
 async function calculateTrustBreakdown(user) {
     const breakdown = {
         emailVerified: { score: user.isEmailVerified ? 15 : 0, max: 15 },
