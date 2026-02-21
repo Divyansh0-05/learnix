@@ -47,13 +47,13 @@ export default function ForgotPassword() {
             <div style={{
                 position: 'relative',
                 width: '100%',
-                height: '100vh',
-                height: '100dvh', // Strictly lock the viewport height
+                minHeight: '100vh',
+                minHeight: '100dvh', // Dynamic viewport height
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                paddingTop: '64px', // Offset for Navbar height to center in visible space
-                overflow: 'hidden' // Prevent any scrolling
+                padding: '80px 1rem', // Balanced padding for centering between bars
+                boxSizing: 'border-box'
             }}>
                 <div style={{ position: 'absolute', top: '1rem', left: '1rem', zIndex: 10 }}>
                     <Link
