@@ -47,13 +47,12 @@ export default function ForgotPassword() {
             <div style={{
                 position: 'relative',
                 width: '100%',
-                minHeight: '100vh',
-                minHeight: '100dvh', // Modern dynamic viewport height
+                height: '100vh',
+                height: '100dvh', // Strictly lock the viewport height
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                padding: '1.5rem 1rem', // Reduced padding for mobile fit
-                overflowX: 'hidden'
+                overflow: 'hidden' // Prevent any scrolling
             }}>
                 <div style={{ position: 'absolute', top: '1rem', left: '1rem', zIndex: 10 }}>
                     <Link

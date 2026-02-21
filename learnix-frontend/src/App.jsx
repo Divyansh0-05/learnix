@@ -36,6 +36,7 @@ function Layout({ children }) {
     const location = useLocation();
     const isHome = location.pathname === '/';
     const isChat = location.pathname.startsWith('/chat');
+    const isAuthPage = ['/login', '/register', '/forgot-password'].some(path => location.pathname.startsWith(path));
 
     React.useEffect(() => {
         // Synchronous immediate scroll to top on route change
@@ -48,7 +49,7 @@ function Layout({ children }) {
         <div style={{ width: '100%', position: 'relative' }}>
             <Navbar />
             <main>{children}</main>
-            {!isHome && !isChat && <Footer />}
+            {!isHome && !isChat && !isAuthPage && <Footer />}
         </div>
     );
 }
