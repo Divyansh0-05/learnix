@@ -1,0 +1,43 @@
+.auth-page-wrapper {
+    position: relative;
+    width: 100%;
+    min-height: 100dvh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    /* Desktop default: Account for top navbar only */
+    padding-top: 64px;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    overflow-x: hidden;
+}
+
+/* On mobile, also account for the bottom navigation bar */
+@media (max-width: 767px) {
+    .auth-page-wrapper {
+        padding-top: 64px;
+        padding-bottom: 64px;
+        /* Ensure there's a bit of extra space so it doesn't touch even when centered */
+        min-height: 100dvh;
+    }
+}
+
+.auth-card-container {
+    width: 100%;
+    max-width: 400px;
+    background: #0a0a0f;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 1.25rem;
+    padding: 1.75rem;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 40px rgba(0, 0, 0, 0.5);
+    position: relative;
+    z-index: 1;
+}
+
+.back-link-container {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    z-index: 10;
+}

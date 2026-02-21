@@ -4,6 +4,7 @@ import { Helmet } from 'react-helmet-async';
 import { FiArrowLeft } from 'react-icons/fi';
 import { useAuth } from '../context/AuthContext';
 import StarryBackground from '../components/common/StarryBackground';
+import '../styles/AuthLayout.css';
 
 export default function Login() {
     const [email, setEmail] = useState('');
@@ -12,14 +13,6 @@ export default function Login() {
     const [error, setError] = useState(''); // Added error state
     const { login, isAuthenticated, loading: authLoading } = useAuth();
     const navigate = useNavigate();
-
-    React.useEffect(() => {
-        if (!authLoading && isAuthenticated) {
-            navigate('/dashboard');
-        }
-    }, [isAuthenticated, authLoading, navigate]);
-
-    if (authLoading) return null;
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -53,18 +46,8 @@ export default function Login() {
                 <title>Login — Learnix</title>
             </Helmet>
             <StarryBackground />
-            <div style={{
-                position: 'relative',
-                width: '100%',
-                minHeight: '100vh',
-                minHeight: '100dvh', // Dynamic viewport height
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                padding: '80px 1rem', // Balanced padding for centering between bars
-                boxSizing: 'border-box'
-            }}>
-                <div style={{ position: 'absolute', top: '1rem', left: '1rem', zIndex: 10 }}>
+            <div className="auth-page-wrapper">
+                <div className="back-link-container">
                     <Link
                         to="/"
                         style={{
@@ -85,15 +68,7 @@ export default function Login() {
                         <FiArrowLeft /> Back to Home
                     </Link>
                 </div>
-                <div style={{
-                    width: '100%',
-                    maxWidth: '400px',
-                    background: '#0a0a0f',
-                    border: '1px solid rgba(255,255,255,0.08)',
-                    borderRadius: '1.25rem',
-                    padding: '1.75rem',
-                    boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 40px rgba(0,0,0,0.5)',
-                }}>
+                <div className="auth-card-container">
                     <h1 style={{ color: '#fff', fontWeight: 800, fontSize: '1.4rem', letterSpacing: '-0.03em', marginBottom: '0.2rem' }}>
                         Welcome back
                     </h1>
