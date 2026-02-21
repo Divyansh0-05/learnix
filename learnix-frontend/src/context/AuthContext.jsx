@@ -52,9 +52,13 @@ export const AuthProvider = ({ children }) => {
             toast.success('Login successful!');
             return { success: true };
         } catch (error) {
+            let errorMsg = error.response?.data?.error;
+            if (!errorMsg && error.response?.data?.errors?.length > 0) {
+                errorMsg = error.response.data.errors[0].message;
+            }
             return {
                 success: false,
-                error: error.response?.data?.error || 'Login failed'
+                error: errorMsg || 'Login failed'
             };
         }
     };
@@ -72,9 +76,13 @@ export const AuthProvider = ({ children }) => {
             toast.success('Registration successful!');
             return { success: true };
         } catch (error) {
+            let errorMsg = error.response?.data?.error;
+            if (!errorMsg && error.response?.data?.errors?.length > 0) {
+                errorMsg = error.response.data.errors[0].message;
+            }
             return {
                 success: false,
-                error: error.response?.data?.error || 'Registration failed'
+                error: errorMsg || 'Registration failed'
             };
         }
     };
@@ -93,12 +101,40 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
+    const forgotPassword = async (email) => {
+        try {
+            const response = await api.post('/auth/forgot-password', { email });
+            toast.success('Password reset email sent!');
+            return { success: true, message: response.data.message };
+        } catch (error) {
+            return {
+                success: false,
+                error: error.response?.data?.error || 'Failed to send reset email'
+            };
+        }
+    };
+
+    const resetPassword = async (token, newPassword) => {
+        try {
+            const response = await api.post('/auth/reset-password', { token, newPassword });
+            toast.success('Password reset successful!');
+            return { success: true, message: response.data.message };
+        } catch (error) {
+            return {
+                success: false,
+                error: error.response?.data?.error || 'Failed to reset password'
+            };
+        }
+    };
+
     const value = {
         user,
         loading,
         login,
         register,
         logout,
+        forgotPassword,
+        resetPassword,
         isAuthenticated: !!user,
         isAdmin: user?.role === 'admin',
     };

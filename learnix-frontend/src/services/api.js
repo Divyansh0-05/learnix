@@ -57,9 +57,13 @@ api.interceptors.response.use(
         }
 
         // Show error toast for other errors
-        const errorMessage = error.response?.data?.error || 'Something went wrong';
+        let errorMessage = error.response?.data?.error;
+        if (!errorMessage && error.response?.data?.errors?.length > 0) {
+            errorMessage = error.response.data.errors[0].message;
+        }
+        errorMessage = errorMessage || 'Something went wrong';
         if (error.response?.status !== 401) {
-            toast.error(errorMessage);
+            toast.error(errorMessage, { id: errorMessage });
         }
 
         return Promise.reject(error);

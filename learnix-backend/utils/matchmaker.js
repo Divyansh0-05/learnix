@@ -97,25 +97,34 @@ exports.findMutualMatches = (user1, user2) => {
     // Find skills where user1 offers what user2 wants
     user1.skillsOffered.forEach(offered => {
         user2.skillsWanted.forEach(wanted => {
-            if (offered.skillName.toLowerCase() === wanted.skillName.toLowerCase() &&
-                offered.category === wanted.category) {
+            const offeredName = offered.skillName.toLowerCase().trim();
+            const wantedName = wanted.skillName.toLowerCase().trim();
+
+            // Allow partial match if category is same
+            if ((offeredName.includes(wantedName) || wantedName.includes(offeredName)) &&
+                offered.category.trim() === wanted.category.trim()) {
 
                 // Find corresponding skill where user2 offers what user1 wants
-                const reciprocalMatch = user2.skillsOffered.find(offered2 =>
-                    user1.skillsWanted.some(wanted1 =>
-                        offered2.skillName.toLowerCase() === wanted1.skillName.toLowerCase() &&
-                        offered2.category === wanted1.category
-                    )
-                );
+                let matchedReciprocalWanted = null;
+                const reciprocalMatch = user2.skillsOffered.find(offered2 => {
+                    const offered2Name = offered2.skillName.toLowerCase().trim();
 
-                if (reciprocalMatch) {
+                    matchedReciprocalWanted = user1.skillsWanted.find(wanted1 => {
+                        const wanted1Name = wanted1.skillName.toLowerCase().trim();
+                        // Check if skill names partial match AND categories match
+                        return (offered2Name.includes(wanted1Name) || wanted1Name.includes(offered2Name)) &&
+                            offered2.category.trim() === wanted1.category.trim();
+                    });
+
+                    return !!matchedReciprocalWanted;
+                });
+
+                if (reciprocalMatch && matchedReciprocalWanted) {
                     commonSkills.push({
                         user1Offers: offered,
                         user2Wants: wanted,
                         user2Offers: reciprocalMatch,
-                        user1Wants: user1.skillsWanted.find(w =>
-                            w.skillName.toLowerCase() === reciprocalMatch.skillName.toLowerCase()
-                        )
+                        user1Wants: matchedReciprocalWanted
                     });
                 }
             }

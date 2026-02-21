@@ -53,11 +53,10 @@ exports.protect = async (req, res, next) => {
                 });
             }
 
-            // Update last active timestamp (don't await to avoid blocking)
-            user.lastActive = Date.now();
-            user.save({ validateBeforeSave: false }).catch(err =>
-                console.error('Error updating lastActive:', err)
-            );
+            // Update last active timestamp (atomic update - no document lock)
+            User.findByIdAndUpdate(user._id, {
+                lastActive: Date.now()
+            }).catch(err => console.error('Error updating lastActive:', err));
 
             req.user = user;
             next();

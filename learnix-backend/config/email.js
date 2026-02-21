@@ -1,11 +1,31 @@
 const nodemailer = require('nodemailer');
 
 const sendEmail = async (options) => {
+    const isDevelopment = process.env.NODE_ENV === 'development';
+    const hasValidKey = process.env.EMAIL_PASSWORD &&
+        process.env.EMAIL_PASSWORD !== 'your_gmail_app_password' &&
+        process.env.EMAIL_PASSWORD !== '';
+
+    if (!hasValidKey) {
+        console.log('------------------------------------------------');
+        console.log('DEVELOPMENT EMAIL FALLBACK (No API Key found)');
+        console.log(`TO: ${options.email}`);
+        console.log(`SUBJECT: ${options.subject}`);
+        console.log(`MESSAGE: ${options.message || 'Check Reset Link below'}`);
+        if (options.data && options.data.resetUrl) {
+            console.log(`RESET URL: ${options.data.resetUrl}`);
+        }
+        console.log('------------------------------------------------');
+
+        // Return a mock success response so the flow doesn't break
+        return { messageId: 'dev-fallback-message-id' };
+    }
+
     const transporter = nodemailer.createTransport({
-        service: process.env.EMAIL_SERVICE, // e.g., 'SendGrid'
+        service: 'gmail',
         auth: {
-            user: 'apikey', // specific to SendGrid when using nodemailer with service
-            pass: process.env.SENDGRID_API_KEY,
+            user: process.env.EMAIL_FROM,
+            pass: process.env.EMAIL_PASSWORD,
         },
     });
 

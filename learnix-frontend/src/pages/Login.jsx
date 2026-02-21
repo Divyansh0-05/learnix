@@ -1,94 +1,197 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
+import { FiArrowLeft } from 'react-icons/fi';
 import { useAuth } from '../context/AuthContext';
+import StarryBackground from '../components/common/StarryBackground';
 
-const Login = () => {
+export default function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
-    const { login } = useAuth();
+    const [error, setError] = useState(''); // Added error state
+    const { login, isAuthenticated, loading: authLoading } = useAuth();
     const navigate = useNavigate();
+
+    React.useEffect(() => {
+        if (!authLoading && isAuthenticated) {
+            navigate('/dashboard');
+        }
+    }, [isAuthenticated, authLoading, navigate]);
+
+    if (authLoading) return null;
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setError('');
         setLoading(true);
-
         const result = await login(email, password);
         if (result.success) {
             navigate('/dashboard');
+        } else {
+            setError(result.error || 'Login failed. Please try again.');
         }
-
         setLoading(false);
     };
 
-    return (
-        <div className="min-h-[calc(100-64px)] flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-            <div className="max-w-md w-full space-y-8 bg-white p-8 rounded-2xl shadow-lg">
-                <div>
-                    <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-                        Sign in to your account
-                    </h2>
-                    <p className="mt-2 text-center text-sm text-gray-600">
-                        Or{' '}
-                        <Link to="/register" className="font-medium text-primary-600 hover:text-primary-500">
-                            create a new account
-                        </Link>
-                    </p>
-                </div>
+    const inputStyle = {
+        width: '100%',
+        background: 'rgba(255,255,255,0.05)',
+        border: '1px solid rgba(255,255,255,0.10)',
+        borderRadius: '0.5rem',
+        padding: '0.6rem 0.8rem',
+        color: '#fff',
+        fontSize: '0.85rem',
+        outline: 'none',
+        transition: 'border-color 0.2s',
+        boxSizing: 'border-box',
+    };
 
-                <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-                    <div className="rounded-md shadow-sm -space-y-px">
-                        <div className="mb-4">
-                            <label htmlFor="email-address" className="sr-only">Email address</label>
+    return (
+        <>
+            <Helmet>
+                <title>Login — Learnix</title>
+            </Helmet>
+            <StarryBackground />
+            <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem', position: 'relative', overflow: 'hidden' }}>
+                <div style={{ position: 'absolute', top: '2rem', left: '2rem', zIndex: 10 }}>
+                    <Link
+                        to="/"
+                        style={{
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: '0.5rem',
+                            color: 'rgba(255,255,255,0.4)',
+                            textDecoration: 'none',
+                            fontSize: '0.75rem',
+                            fontWeight: 700,
+                            letterSpacing: '0.1em',
+                            textTransform: 'uppercase',
+                            transition: 'color 0.2s'
+                        }}
+                        onMouseEnter={e => e.currentTarget.style.color = '#fff'}
+                        onMouseLeave={e => e.currentTarget.style.color = 'rgba(255,255,255,0.4)'}
+                    >
+                        <FiArrowLeft /> Back to Home
+                    </Link>
+                </div>
+                <div style={{
+                    width: '100%',
+                    maxWidth: '400px',
+                    background: '#0a0a0f',
+                    border: '1px solid rgba(255,255,255,0.08)',
+                    borderRadius: '1.25rem',
+                    padding: '1.75rem',
+                    boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 40px rgba(0,0,0,0.5)',
+                }}>
+                    <h1 style={{ color: '#fff', fontWeight: 800, fontSize: '1.4rem', letterSpacing: '-0.03em', marginBottom: '0.2rem' }}>
+                        Welcome back
+                    </h1>
+                    <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.8rem', marginBottom: '1.25rem' }}>
+                        Sign in to your Learnix account
+                    </p>
+
+                    {error && (
+                        <div style={{
+                            background: 'rgba(239,68,68,0.1)',
+                            border: '1px solid rgba(239,68,68,0.25)',
+                            borderRadius: '0.5rem',
+                            padding: '0.5rem 0.75rem',
+                            color: '#fca5a5',
+                            fontSize: '0.8rem',
+                            marginBottom: '1rem',
+                        }}>{error}</div>
+                    )}
+
+                    <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                        <div>
+                            <label style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.7rem', fontWeight: 600, letterSpacing: '0.04em', display: 'block', marginBottom: '0.2rem' }}>
+                                EMAIL
+                            </label>
                             <input
-                                id="email-address"
-                                name="email"
                                 type="email"
-                                autoComplete="email"
                                 required
                                 value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                className="input-field"
-                                placeholder="Email address"
+                                onChange={e => setEmail(e.target.value)}
+                                style={inputStyle}
+                                placeholder="Email Address"
+                                onFocus={e => (e.target.style.borderColor = '#ffffff')}
+                                onBlur={e => (e.target.style.borderColor = 'rgba(255,255,255,0.10)')}
                             />
                         </div>
                         <div>
-                            <label htmlFor="password" className="sr-only">Password</label>
+                            <label style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.7rem', fontWeight: 600, letterSpacing: '0.04em', display: 'block', marginBottom: '0.2rem' }}>
+                                PASSWORD
+                            </label>
                             <input
-                                id="password"
-                                name="password"
                                 type="password"
-                                autoComplete="current-password"
                                 required
                                 value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                className="input-field"
+                                onChange={e => setPassword(e.target.value)}
+                                style={inputStyle}
                                 placeholder="Password"
+                                onFocus={e => (e.target.style.borderColor = '#ffffff')}
+                                onBlur={e => (e.target.style.borderColor = 'rgba(255,255,255,0.10)')}
                             />
+                            <div style={{ textAlign: 'right', marginTop: '0.4rem' }}>
+                                <Link
+                                    to="/forgot-password"
+                                    style={{
+                                        color: 'rgba(255,255,255,0.4)',
+                                        fontSize: '0.75rem',
+                                        textDecoration: 'none',
+                                        transition: 'color 0.2s'
+                                    }}
+                                    onMouseEnter={e => e.currentTarget.style.color = '#fff'}
+                                    onMouseLeave={e => e.currentTarget.style.color = 'rgba(255,255,255,0.4)'}
+                                >
+                                    Forgot password?
+                                </Link>
+                            </div>
                         </div>
-                    </div>
-
-                    <div>
                         <button
                             type="submit"
                             disabled={loading}
-                            className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 disabled:opacity-50 transition duration-200"
+                            style={{
+                                background: loading ? '#aaaaaa' : '#ffffff',
+                                color: '#000000',
+                                border: 'none',
+                                borderRadius: '2rem',
+                                padding: '0.75rem',
+                                fontSize: '0.85rem',
+                                fontWeight: 700,
+                                cursor: loading ? 'not-allowed' : 'pointer',
+                                marginTop: '0.5rem',
+                                transition: 'all 0.25s ease',
+                                boxShadow: '0 8px 32px rgba(0,0,0,0.4)',
+                            }}
+                            onMouseEnter={e => {
+                                if (!loading) {
+                                    e.currentTarget.style.background = '#e5e5e5';
+                                    e.currentTarget.style.transform = 'translateY(-2px)';
+                                    e.currentTarget.style.boxShadow = '0 12px 40px rgba(0,0,0,0.5)';
+                                }
+                            }}
+                            onMouseLeave={e => {
+                                if (!loading) {
+                                    e.currentTarget.style.background = '#ffffff';
+                                    e.currentTarget.style.transform = 'translateY(0)';
+                                    e.currentTarget.style.boxShadow = '0 8px 32px rgba(0,0,0,0.4)';
+                                }
+                            }}
                         >
-                            {loading ? (
-                                <span className="flex items-center">
-                                    <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                    </svg>
-                                    Signing in...
-                                </span>
-                            ) : 'Sign in'}
+                            {loading ? 'Signing in...' : 'Sign In'}
                         </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    );
-};
+                    </form>
 
-export default Login;
+                    <p style={{ color: 'rgba(255,255,255,0.35)', fontSize: '0.8rem', textAlign: 'center', marginTop: '1.25rem' }}>
+                        Don&apos;t have an account?{' '}
+                        <Link to="/register" style={{ color: '#ffffff', fontWeight: 600, textDecoration: 'none' }}>
+                            Sign up
+                        </Link>
+                    </p>
+                </div>
+            </div>
+        </>
+    );
+}

@@ -52,7 +52,6 @@ app.use('/api/v1/requests', require('./routes/requests'));
 app.use('/api/v1/chat', require('./routes/chat'));
 app.use('/api/v1/reviews', require('./routes/reviews'));
 app.use('/api/v1/trust', require('./routes/trust'));
-app.use('/api/v1/admin', require('./routes/admin'));
 
 // Health Check Endpoint
 app.get('/health', (req, res) => {

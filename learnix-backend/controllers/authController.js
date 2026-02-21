@@ -3,13 +3,14 @@ const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 const { sendEmail } = require('../utils/email');
 const logger = require('../utils/logger');
+const { getPasswordResetTemplate } = require('../utils/emailTemplates');
 
 // @desc    Register user
 // @route   POST /api/auth/register
 // @access  Public
 exports.register = async (req, res, next) => {
     try {
-        const { name, email, password } = req.body;
+        const { name, email, password, location, modePreference } = req.body;
 
         // Check if user exists
         const existingUser = await User.findOne({ email });
@@ -24,7 +25,9 @@ exports.register = async (req, res, next) => {
         const user = await User.create({
             name,
             email,
-            password
+            password,
+            location,
+            modePreference
         });
 
         // Generate email verification token
@@ -335,11 +338,7 @@ exports.forgotPassword = async (req, res, next) => {
             await sendEmail({
                 email: user.email,
                 subject: 'Password Reset - Learnix',
-                template: 'passwordReset',
-                data: {
-                    name: user.name,
-                    resetUrl
-                },
+                html: getPasswordResetTemplate(resetUrl, user.name || 'User'),
                 message: `You requested a password reset. Please go to this link to reset your password: ${resetUrl}`
             });
 

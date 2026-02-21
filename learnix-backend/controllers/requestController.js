@@ -2,6 +2,7 @@ const Request = require('../models/Request');
 const Match = require('../models/Match');
 const User = require('../models/User');
 const { sendNotification } = require('../socket/notificationHandlers');
+const { sendEmail } = require('../utils/email');
 const logger = require('../utils/logger');
 
 // @desc    Send connection request
@@ -74,6 +75,35 @@ exports.sendRequest = async (req, res, next) => {
             message: message
         });
 
+        // EMAIL ALERT (Offline only)
+        try {
+            const { getIO } = require('../socket');
+            const io = getIO();
+            const recipientRoom = `user:${receiverId}`;
+            const sockets = io.sockets.adapter.rooms.get(recipientRoom);
+            const isOnline = sockets && sockets.size > 0;
+
+            if (!isOnline) {
+                await sendEmail({
+                    email: receiver.email,
+                    subject: `New Connection Request from ${req.user.name} on Learnix`,
+                    message: `${req.user.name} wants to connect with you! "${message || 'No message provided'}"`,
+                    html: `
+                        <div style="font-family: sans-serif; color: #333;">
+                            <h2>New Connection Request!</h2>
+                            <p><strong>${req.user.name}</strong> sent you a connection request on Learnix.</p>
+                            ${message ? `<blockquote style="border-left: 4px solid #ddd; padding-left: 10px; color: #666;">${message}</blockquote>` : ''}
+                            <p>Log in to your dashboard to review and accept the request.</p>
+                            <a href="${process.env.CLIENT_URL}/dashboard" style="display: inline-block; padding: 10px 20px; background: #000; color: #fff; text-decoration: none; border-radius: 5px;">View Request</a>
+                        </div>
+                    `
+                });
+                logger.info(`Offline email sent to ${receiver.email} for new request`);
+            }
+        } catch (emailErr) {
+            logger.error('Failed to send offline request email', { error: emailErr.message });
+        }
+
         res.status(201).json({
             success: true,
             message: 'Connection request sent',
@@ -120,10 +150,23 @@ exports.acceptRequest = async (req, res, next) => {
         await request.save();
 
         // Update match status to active
-        await Match.findByIdAndUpdate(request.match, {
+        const updatedMatch = await Match.findByIdAndUpdate(request.match, {
             status: 'active',
             lastInteractionAt: new Date()
-        });
+        }, { new: true })
+            .populate('user1', 'name avatar location trustScore averageRating lastActive')
+            .populate('user2', 'name avatar location trustScore averageRating lastActive');
+
+        // Force join both users to the match room so they get real-time typing/messages immediately
+        const { joinMatchRoom, getIO } = require('../socket');
+        const io = getIO();
+        joinMatchRoom(request.sender._id, request.match);
+        joinMatchRoom(request.receiver._id, request.match);
+
+        // Notify both users that a match is now active
+        const matchData = updatedMatch.toObject();
+        io.to(`user:${request.sender._id}`).emit('match_activated', { match: matchData });
+        io.to(`user:${request.receiver._id}`).emit('match_activated', { match: matchData });
 
         // Populate data for response
         await request.populate('sender', 'name avatar');
@@ -138,6 +181,35 @@ exports.acceptRequest = async (req, res, next) => {
                 name: req.user.name
             }
         });
+
+        // EMAIL ALERT (Offline only)
+        try {
+            const recipientRoom = `user:${request.sender._id}`;
+            const sockets = io.sockets.adapter.rooms.get(recipientRoom);
+            const isOnline = sockets && sockets.size > 0;
+
+            if (!isOnline) {
+                const senderUser = await User.findById(request.sender);
+                if (senderUser) {
+                    await sendEmail({
+                        email: senderUser.email,
+                        subject: `Request Accepted! You matched with ${req.user.name}`,
+                        message: `Great news! ${req.user.name} accepted your connection request.`,
+                        html: `
+                            <div style="font-family: sans-serif; color: #333;">
+                                <h2>It's a Match!</h2>
+                                <p><strong>${req.user.name}</strong> accepted your connection request on Learnix.</p>
+                                <p>You can now start chatting and sharing skills!</p>
+                                <a href="${process.env.CLIENT_URL}/chat/${request.match}" style="display: inline-block; padding: 10px 20px; background: #000; color: #fff; text-decoration: none; border-radius: 5px;">Start Chatting</a>
+                            </div>
+                        `
+                    });
+                    logger.info(`Offline match email sent to ${senderUser.email}`);
+                }
+            }
+        } catch (emailErr) {
+            logger.error('Failed to send offline match email', { error: emailErr.message });
+        }
 
         res.status(200).json({
             success: true,

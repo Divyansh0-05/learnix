@@ -108,6 +108,21 @@ exports.sendMessage = async (req, res, next) => {
             });
         }
 
+        const recipientId = match.user1.toString() === userId ? match.user2.toString() : match.user1.toString();
+
+        const [senderUser, recipientUser] = await Promise.all([
+            User.findById(userId).select('blockedUsers'),
+            User.findById(recipientId).select('blockedUsers')
+        ]);
+
+        if (senderUser.blockedUsers && senderUser.blockedUsers.includes(recipientId)) {
+            return res.status(403).json({ success: false, error: 'You cannot send messages to a blocked user' });
+        }
+
+        if (recipientUser.blockedUsers && recipientUser.blockedUsers.includes(userId)) {
+            return res.status(403).json({ success: false, error: 'You have been blocked by this user' });
+        }
+
         const newMessage = await Chat.create({
             match: matchId,
             sender: userId,
@@ -122,14 +137,22 @@ exports.sendMessage = async (req, res, next) => {
         // Emit via Socket.IO if available
         try {
             const io = getIO();
-            io.to(`match:${matchId}`).emit('new_message', newMessage);
+            const midStr = String(matchId);
+            const uidStr = String(userId);
 
-            const recipientId = match.user1.toString() === userId
-                ? match.user2.toString()
-                : match.user1.toString();
+            // Broadcast to the match room (for the active chat window)
+            io.to(`match:${midStr}`).emit('new_message', newMessage);
+
+            // Determine recipient for the sidebar notification
+            const user1Str = String(match.user1._id || match.user1);
+            const user2Str = String(match.user2._id || match.user2);
+
+            const recipientId = user1Str === uidStr ? user2Str : user1Str;
+
+            logger.info(`Message from ${uidStr} in match ${midStr}. Notifying recipient ${recipientId}`);
 
             io.to(`user:${recipientId}`).emit('new_message_notification', {
-                matchId,
+                matchId: midStr,
                 message: newMessage,
                 sender: {
                     id: req.user._id,
@@ -138,7 +161,7 @@ exports.sendMessage = async (req, res, next) => {
                 }
             });
         } catch (socketErr) {
-            logger.warn('Socket.IO not available for real-time emit');
+            logger.warn('Socket.IO not available for real-time emit', { error: socketErr.message });
         }
 
         res.status(201).json({

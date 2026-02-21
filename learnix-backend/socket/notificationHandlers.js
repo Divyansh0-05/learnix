@@ -25,6 +25,7 @@ exports.sendTypingIndicator = (matchId, userId, isTyping) => {
     try {
         const io = getIO();
         io.to(`match:${matchId}`).emit('user_typing', {
+            matchId,
             userId,
             isTyping
         });

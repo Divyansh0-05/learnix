@@ -382,3 +382,75 @@ exports.getRecommendations = async (req, res, next) => {
         next(error);
     }
 };
+
+// @desc    Block a user
+// @route   POST /api/users/:id/block
+// @access  Private
+exports.blockUser = async (req, res, next) => {
+    try {
+        const targetUserId = req.params.id;
+        const currentUserId = req.user.id;
+
+        if (targetUserId === currentUserId) {
+            return res.status(400).json({ success: false, error: 'You cannot block yourself' });
+        }
+
+        const user = await User.findByIdAndUpdate(
+            currentUserId,
+            { $addToSet: { blockedUsers: targetUserId } },
+            { new: true }
+        );
+
+        res.status(200).json({ success: true, message: 'User blocked successfully' });
+    } catch (error) {
+        next(error);
+    }
+};
+
+// @desc    Unblock a user
+// @route   DELETE /api/users/:id/block
+// @access  Private
+exports.unblockUser = async (req, res, next) => {
+    try {
+        const targetUserId = req.params.id;
+        const currentUserId = req.user.id;
+
+        const user = await User.findByIdAndUpdate(
+            currentUserId,
+            { $pull: { blockedUsers: targetUserId } },
+            { new: true }
+        );
+
+        res.status(200).json({ success: true, message: 'User unblocked successfully' });
+    } catch (error) {
+        next(error);
+    }
+};
+
+// @desc    Report a user
+// @route   POST /api/users/:id/report
+// @access  Private
+exports.reportUser = async (req, res, next) => {
+    try {
+        const { reason, description } = req.body;
+        const reportedUserId = req.params.id;
+        const reporterId = req.user.id;
+
+        const Report = require('../models/Report');
+
+        if (reportedUserId === reporterId) {
+            return res.status(400).json({ success: false, error: 'You cannot report yourself' });
+        }
+
+        const report = await Report.create({
+            reporter: reporterId,
+            reportedUser: reportedUserId,
+            reason,
+            description
+        });
+
+        res.status(201).json({ success: true, message: 'Report submitted successfully' });
+    } catch (error) {
+        next(error);
+    }
+};

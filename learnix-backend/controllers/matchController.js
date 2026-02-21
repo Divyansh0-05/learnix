@@ -10,7 +10,7 @@ const logger = require('../utils/logger');
 exports.findMatches = async (req, res, next) => {
     try {
         const userId = req.user._id;
-        const { minScore = 50, limit = 20 } = req.query;
+        const { minScore = 10, limit = 20 } = req.query; // Lowered default to 10 for visibility
 
         // Get current user with populated skills
         const currentUser = await User.findById(userId)
@@ -40,9 +40,13 @@ exports.findMatches = async (req, res, next) => {
         // Calculate matches with scores
         const matchesWithScores = [];
 
+        console.log(`Found ${potentialUsers.length} potential users for matching`);
+
         for (const potentialUser of potentialUsers) {
             // Find mutual skills
             const commonSkills = findMutualMatches(currentUser, potentialUser);
+
+            console.log(`Checking match with ${potentialUser.name}: ${commonSkills.length} common skills`);
 
             if (commonSkills.length > 0) {
                 // Calculate compatibility score
@@ -79,12 +83,16 @@ exports.findMatches = async (req, res, next) => {
                     ]
                 },
                 {
-                    user1: userId,
-                    user2: match.user._id,
-                    matchScore: match.matchScore,
-                    commonSkills: match.commonSkills,
-                    status: 'pending',
-                    lastInteractionAt: new Date()
+                    $set: {
+                        user1: userId,
+                        user2: match.user._id,
+                        matchScore: match.matchScore,
+                        commonSkills: match.commonSkills
+                    },
+                    $setOnInsert: {
+                        status: 'pending',
+                        lastInteractionAt: new Date()
+                    }
                 },
                 {
                     upsert: true,
@@ -94,53 +102,67 @@ exports.findMatches = async (req, res, next) => {
             matchIdMap.set(match.user._id.toString(), savedMatch._id);
         }
 
-        // Get existing matches to check request status
-        const existingMatches = await Match.find({
+        // Get existing requests to determine status
+        const Request = require('../models/Request');
+        const existingRequests = await Request.find({
             $or: [
-                { user1: userId },
-                { user2: userId }
-            ]
-        }).select('user1 user2 status');
+                { sender: userId },
+                { receiver: userId }
+            ],
+            status: 'pending'
+        });
 
-        const existingMatchMap = new Map();
-        existingMatches.forEach(match => {
-            const otherUserId = match.user1.toString() === userId.toString()
-                ? match.user2.toString()
-                : match.user1.toString();
-            existingMatchMap.set(otherUserId, match.status);
+        const requestMap = new Map();
+        existingRequests.forEach(req => {
+            const partnerId = req.sender.toString() === userId.toString()
+                ? req.receiver.toString()
+                : req.sender.toString();
+
+            // If I sent it, it's 'pending' (Request Pending)
+            if (req.sender.toString() === userId.toString()) {
+                requestMap.set(partnerId, 'pending');
+            } else {
+                // If I received it, it's 'request_received' (though this endpoint might not need to show them)
+                requestMap.set(partnerId, 'request_received');
+            }
         });
 
         res.status(200).json({
             success: true,
             data: {
-                matches: sortedMatches.map(m => ({
-                    id: m.user._id,
-                    matchId: matchIdMap.get(m.user._id.toString()),
-                    matchScore: m.matchScore,
-                    user: {
+                matches: sortedMatches.map(m => {
+                    const existingStatus = requestMap.get(m.user._id.toString());
+                    // If no request exists, it's 'new' (Connect button)
+                    // If request exists, it's 'pending' (Request Pending button)
+                    return {
                         id: m.user._id,
-                        name: m.user.name,
-                        avatar: m.user.avatar,
-                        bio: m.user.bio?.substring(0, 150),
-                        location: m.user.location,
-                        averageRating: m.user.averageRating,
-                        trustScore: m.user.trustScore,
-                        skillsOffered: m.user.skillsOffered.slice(0, 3),
-                        skillsWanted: m.user.skillsWanted.slice(0, 3)
-                    },
-                    commonSkills: m.commonSkills.map(cs => ({
-                        youOffer: cs.user1Offers?.skillName,
-                        youOfferLevel: cs.user1Offers?.level,
-                        theyWant: cs.user2Wants?.skillName,
-                        theyWantLevel: cs.user2Wants?.level,
-                        theyOffer: cs.user2Offers?.skillName,
-                        theyOfferLevel: cs.user2Offers?.level,
-                        youWant: cs.user1Wants?.skillName,
-                        youWantLevel: cs.user1Wants?.level
-                    })),
-                    matchStatus: existingMatchMap.get(m.user._id.toString()) || 'new',
-                    scoreBreakdown: m.factors
-                })),
+                        matchId: matchIdMap.get(m.user._id.toString()),
+                        matchScore: m.matchScore,
+                        user: {
+                            id: m.user._id,
+                            name: m.user.name,
+                            avatar: m.user.avatar,
+                            bio: m.user.bio?.substring(0, 150),
+                            location: m.user.location,
+                            averageRating: m.user.averageRating,
+                            trustScore: m.user.trustScore,
+                            skillsOffered: m.user.skillsOffered.slice(0, 3),
+                            skillsWanted: m.user.skillsWanted.slice(0, 3)
+                        },
+                        commonSkills: m.commonSkills.map(cs => ({
+                            youOffer: cs.user1Offers?.skillName,
+                            youOfferLevel: cs.user1Offers?.level,
+                            theyWant: cs.user2Wants?.skillName,
+                            theyWantLevel: cs.user2Wants?.level,
+                            theyOffer: cs.user2Offers?.skillName,
+                            theyOfferLevel: cs.user2Offers?.level,
+                            youWant: cs.user1Wants?.skillName,
+                            youWantLevel: cs.user1Wants?.level
+                        })),
+                        matchStatus: existingStatus || 'new', // Default to 'new' if no request
+                        scoreBreakdown: m.factors
+                    };
+                }),
                 total: sortedMatches.length
             }
         });
