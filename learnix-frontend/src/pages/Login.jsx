@@ -53,8 +53,18 @@ export default function Login() {
                 <title>Login — Learnix</title>
             </Helmet>
             <StarryBackground />
-            <div style={{ position: 'relative', width: '100%', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem', overflowX: 'hidden' }}>
-                <div style={{ position: 'absolute', top: '2rem', left: '2rem', zIndex: 10 }}>
+            <div style={{
+                position: 'relative',
+                width: '100%',
+                minHeight: '100vh',
+                minHeight: '100dvh', // Modern dynamic viewport height
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                padding: '1.5rem 1rem', // Reduced padding for mobile fit
+                overflowX: 'hidden'
+            }}>
+                <div style={{ position: 'absolute', top: '1rem', left: '1rem', zIndex: 10 }}>
                     <Link
                         to="/"
                         style={{
