@@ -237,12 +237,12 @@ export const SocketProvider = ({ children }) => {
             return () => {
                 newSocket.disconnect();
             };
-        } else if (socket) {
+        } else if (socket && (!isAuthenticated || !user)) {
             socket.disconnect();
             setSocket(null);
             setIsConnected(false);
         }
-    }, [isAuthenticated, user, navigate]);
+    }, [isAuthenticated, user]);
 
     // Dedicated effect to clear unread counts when active match changes
     useEffect(() => {

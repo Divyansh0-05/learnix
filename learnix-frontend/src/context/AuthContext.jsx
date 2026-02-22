@@ -127,7 +127,7 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
-    const value = {
+    const value = React.useMemo(() => ({
         user,
         loading,
         login,
@@ -137,7 +137,7 @@ export const AuthProvider = ({ children }) => {
         resetPassword,
         isAuthenticated: !!user,
         isAdmin: user?.role === 'admin',
-    };
+    }), [user, loading]);
 
     return (
         <AuthContext.Provider value={value}>
