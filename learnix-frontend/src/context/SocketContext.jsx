@@ -35,24 +35,36 @@ export const SocketProvider = ({ children }) => {
         if (isAuthenticated && user) {
             const token = localStorage.getItem('accessToken');
             const SOCKET_URL = process.env.REACT_APP_SOCKET_URL || 'http://localhost:5001';
+            console.log(`[Socket] Attempting connection to: ${SOCKET_URL}`);
 
             const newSocket = io(SOCKET_URL, {
                 auth: { token },
-                transports: ['websocket'],
+                transports: ['websocket', 'polling'], // Fallback to polling if WS fails
+                reconnectionAttempts: 5,
+                reconnectionDelay: 1000,
             });
 
             newSocket.on('connect', () => {
-
+                console.log('[Socket] Connected successfully');
                 setIsConnected(true);
             });
 
-            newSocket.on('disconnect', () => {
+            newSocket.on('connect_error', (error) => {
+                console.error('[Socket] Connection error:', error.message);
+                setIsConnected(false);
+                // If it's an auth error, we might need to refresh the token or logout
+                if (error.message === 'Authentication required' || error.message === 'Invalid token') {
+                    console.error('[Socket] Auth error, user might need to re-login');
+                }
+            });
 
+            newSocket.on('disconnect', (reason) => {
+                console.log(`[Socket] Disconnected: ${reason}`);
                 setIsConnected(false);
             });
 
             newSocket.on('error', (error) => {
-                console.error('Socket error:', error);
+                console.error('[Socket] General error:', error);
             });
 
             newSocket.on('joined_matches', ({ onlineUsers: initialOnlineUsers }) => {
