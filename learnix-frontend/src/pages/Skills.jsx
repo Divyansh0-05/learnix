@@ -5,6 +5,7 @@ import { useAuth } from '../context/AuthContext';
 import { getUserSkills, addSkill, deleteSkill, updateSkill } from '../services/skillService';
 import { FiPlus, FiTrash2, FiX, FiEdit2, FiChevronLeft } from 'react-icons/fi';
 import toast from 'react-hot-toast';
+import ConfirmModal from '../components/ConfirmModal';
 
 export default function Skills() {
     const { user } = useAuth();
@@ -14,6 +15,7 @@ export default function Skills() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [submitting, setSubmitting] = useState(false);
     const [editingId, setEditingId] = useState(null);
+    const [confirmModalData, setConfirmModalData] = useState(null);
 
     const [formData, setFormData] = useState({
         skillName: '',
@@ -42,7 +44,7 @@ export default function Skills() {
                 setWanted(result.data.wanted || []);
             }
         } catch (error) {
-            toast.error(error.error || 'Failed to fetch skills');
+            // Error handling is managed by the global axios interceptor
         } finally {
             setLoading(false);
         }
@@ -54,7 +56,6 @@ export default function Skills() {
         try {
             let result;
             if (editingId) {
-                // Remove type from formData as it shouldn't be updated (backend constraint or logic)
                 const { type, ...updateData } = formData;
                 result = await updateSkill(editingId, updateData);
             } else {
@@ -75,7 +76,7 @@ export default function Skills() {
                 fetchSkills();
             }
         } catch (error) {
-            toast.error(error.error || `Failed to ${editingId ? 'update' : 'add'} skill`);
+            // Error handling is managed by the global axios interceptor
         } finally {
             setSubmitting(false);
         }
@@ -94,21 +95,25 @@ export default function Skills() {
     };
 
     const handleDelete = async (id) => {
-        if (!window.confirm('Are you sure you want to delete this skill?')) return;
-        try {
-            const result = await deleteSkill(id);
-            if (result.success) {
-                toast.success('Skill deleted successfully');
-                fetchSkills();
+        setConfirmModalData({
+            title: 'Delete Skill',
+            message: 'Are you sure you want to delete this skill? This cannot be undone.',
+            confirmText: 'Delete',
+            onConfirm: async () => {
+                try {
+                    const result = await deleteSkill(id);
+                    if (result.success) {
+                        toast.success('Skill deleted successfully');
+                        fetchSkills();
+                    }
+                } catch (error) { }
             }
-        } catch (error) {
-            toast.error(error.error || 'Failed to delete skill');
-        }
+        });
     };
 
     const SkillCard = ({ skill }) => {
         const isOffered = skill.type === 'OFFERED';
-        const colorClass = isOffered ? '#34d399' : '#60a5fa'; // Matches Profile page tails
+        const colorClass = isOffered ? '#34d399' : '#60a5fa';
         const bgClass = isOffered ? 'rgba(16,185,129,0.05)' : 'rgba(59,130,246,0.05)';
         const borderClass = isOffered ? 'rgba(16,185,129,0.1)' : 'rgba(59,130,246,0.1)';
         const hoverBgClass = isOffered ? 'rgba(16,185,129,0.08)' : 'rgba(59,130,246,0.08)';
@@ -389,7 +394,7 @@ export default function Skills() {
                                 onChange={e => setFormData({ ...formData, skillName: e.target.value })}
                                 style={inputStyle}
                                 maxLength={50}
-                                disabled={!!editingId} // Unique constraint logic might prevent rename safely
+                                disabled={!!editingId}
                             />
 
                             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
@@ -449,6 +454,16 @@ export default function Skills() {
                     </div>
                 </div>
             )}
+
+            {/* Confirmation Modal */}
+            <ConfirmModal
+                isOpen={!!confirmModalData}
+                onClose={() => setConfirmModalData(null)}
+                title={confirmModalData?.title}
+                message={confirmModalData?.message}
+                confirmText={confirmModalData?.confirmText}
+                onConfirm={confirmModalData?.onConfirm}
+            />
         </>
     );
 }

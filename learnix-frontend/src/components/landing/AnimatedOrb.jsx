@@ -11,7 +11,7 @@ export default function AnimatedOrb() {
                 <div className="skill-icon item-2"><FiAperture /></div> {/* Photography */}
                 <div className="skill-icon item-3"><FiMusic /></div> {/* Music */}
                 <div className="skill-icon item-4"><FiTool /></div> {/* Crafting / Handyman */}
-                <div className="skill-icon item-5"><FiCoffee style={{ transform: 'rotate(180deg)' }} /></div> {/* Cooking / Barista */}
+                <div className="skill-icon item-5"><FiCoffee /></div> {/* Cooking / Barista */}
                 <div className="skill-icon item-6"><FiCode /></div> {/* Technology */}
             </div>
 

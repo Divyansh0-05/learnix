@@ -32,7 +32,7 @@ export const useChat = (matchId) => {
                 setMatchDetails(response.data.data.match);
             } catch (error) {
                 console.error('Failed to fetch chat history:', error);
-                toast.error('Could not load messages');
+                // Error handling is managed by the global axios interceptor
             } finally {
                 setLoading(false);
             }
