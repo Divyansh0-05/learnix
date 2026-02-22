@@ -222,9 +222,9 @@ export default function Profile() {
                                 <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#10b981' }} />
                                 Can Teach
                             </h2>
-                            {profileUser.skillsToTeach?.length > 0 ? (
+                            {profileUser.skillsOffered?.length > 0 ? (
                                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
-                                    {profileUser.skillsToTeach.map((skill, i) => (
+                                    {profileUser.skillsOffered.map((skill, i) => (
                                         <span key={i} style={{
                                             background: 'rgba(16,185,129,0.1)',
                                             border: '1px solid rgba(16,185,129,0.2)',
@@ -234,7 +234,7 @@ export default function Profile() {
                                             fontSize: '0.85rem',
                                             fontWeight: 500
                                         }}>
-                                            {skill.name}
+                                            {skill.skillName}
                                         </span>
                                     ))}
                                 </div>
@@ -254,9 +254,9 @@ export default function Profile() {
                                 <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#3b82f6' }} />
                                 Wants to Learn
                             </h2>
-                            {profileUser.skillsToLearn?.length > 0 ? (
+                            {profileUser.skillsWanted?.length > 0 ? (
                                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
-                                    {profileUser.skillsToLearn.map((skill, i) => (
+                                    {profileUser.skillsWanted.map((skill, i) => (
                                         <span key={i} style={{
                                             background: 'rgba(59,130,246,0.1)',
                                             border: '1px solid rgba(59,130,246,0.2)',
@@ -266,7 +266,7 @@ export default function Profile() {
                                             fontSize: '0.85rem',
                                             fontWeight: 500
                                         }}>
-                                            {skill.name}
+                                            {skill.skillName}
                                         </span>
                                     ))}
                                 </div>

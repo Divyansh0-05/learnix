@@ -278,7 +278,7 @@ const Matches = () => {
                                                 <button disabled style={{
                                                     width: '100%', padding: '0.75rem', background: 'rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.5)', borderRadius: '2rem', fontWeight: 700, fontSize: '0.9rem', border: 'none', cursor: 'not-allowed'
                                                 }}>
-                                                    {match.matchStatus === 'active' ? 'Connected' : 'Request Pending'}
+                                                    {match.matchStatus === 'active' ? 'Matched' : 'Request Pending'}
                                                 </button>
                                             )}
                                         </div>

@@ -72,8 +72,8 @@ exports.findMatches = async (req, res, next) => {
             .sort((a, b) => b.matchScore - a.matchScore)
             .slice(0, parseInt(limit));
 
-        // Save or update matches in database and collect their IDs
-        const matchIdMap = new Map();
+        // Save or update matches in database and collect their IDs and statuses
+        const matchDataMap = new Map();
         for (const match of sortedMatches) {
             const savedMatch = await Match.findOneAndUpdate(
                 {
@@ -99,7 +99,10 @@ exports.findMatches = async (req, res, next) => {
                     new: true
                 }
             );
-            matchIdMap.set(match.user._id.toString(), savedMatch._id);
+            matchDataMap.set(match.user._id.toString(), {
+                id: savedMatch._id,
+                status: savedMatch.status
+            });
         }
 
         // Get existing requests to determine status
@@ -122,7 +125,7 @@ exports.findMatches = async (req, res, next) => {
             if (req.sender.toString() === userId.toString()) {
                 requestMap.set(partnerId, 'pending');
             } else {
-                // If I received it, it's 'request_received' (though this endpoint might not need to show them)
+                // If I received it, it's 'request_received'
                 requestMap.set(partnerId, 'request_received');
             }
         });
@@ -131,12 +134,23 @@ exports.findMatches = async (req, res, next) => {
             success: true,
             data: {
                 matches: sortedMatches.map(m => {
-                    const existingStatus = requestMap.get(m.user._id.toString());
-                    // If no request exists, it's 'new' (Connect button)
-                    // If request exists, it's 'pending' (Request Pending button)
+                    const matchInfo = matchDataMap.get(m.user._id.toString());
+                    const requestStatus = requestMap.get(m.user._id.toString());
+
+                    // Determine final display status
+                    let matchStatus = 'new';
+
+                    if (matchInfo.status === 'active') {
+                        matchStatus = 'active';
+                    } else if (matchInfo.status === 'blocked') {
+                        matchStatus = 'blocked';
+                    } else if (requestStatus) {
+                        matchStatus = requestStatus;
+                    }
+
                     return {
                         id: m.user._id,
-                        matchId: matchIdMap.get(m.user._id.toString()),
+                        matchId: matchInfo.id,
                         matchScore: m.matchScore,
                         user: {
                             id: m.user._id,
@@ -159,7 +173,7 @@ exports.findMatches = async (req, res, next) => {
                             youWant: cs.user1Wants?.skillName,
                             youWantLevel: cs.user1Wants?.level
                         })),
-                        matchStatus: existingStatus || 'new', // Default to 'new' if no request
+                        matchStatus, // The calculated status
                         scoreBreakdown: m.factors
                     };
                 }),
