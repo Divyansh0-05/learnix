@@ -315,7 +315,7 @@ function EditProfileModal({ user, onClose, onUpdate }) {
             toast.success('Profile updated successfully');
             onUpdate(res.data.data.user);
         } catch (error) {
-            toast.error(error.response?.data?.error || 'Failed to update profile');
+            // Error handling is managed by the global axios interceptor
         } finally {
             setSubmitting(false);
         }

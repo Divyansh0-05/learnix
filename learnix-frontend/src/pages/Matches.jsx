@@ -6,6 +6,7 @@ import { toast } from 'react-hot-toast';
 import { useAuth } from '../context/AuthContext';
 import * as matchService from '../services/matchService';
 import * as requestService from '../services/requestService';
+import ConfirmModal from '../components/ConfirmModal';
 
 const Matches = () => {
     const { user } = useAuth();
@@ -19,6 +20,7 @@ const Matches = () => {
     const [suggestedMatches, setSuggestedMatches] = useState([]);
     const [requests, setRequests] = useState({ received: [], sent: [] });
     const [activeMatches, setActiveMatches] = useState([]);
+    const [confirmModalData, setConfirmModalData] = useState(null);
 
     useEffect(() => {
         loadData();
@@ -56,7 +58,7 @@ const Matches = () => {
             setConnectModalData(null);
             loadData(); // Refresh
         } catch (error) {
-            toast.error(error.error || 'Failed to send request');
+            // Error handling is managed by the global axios interceptor
         }
     };
 
@@ -66,30 +68,38 @@ const Matches = () => {
             toast.success('Request accepted! You can now chat.');
             loadData();
         } catch (error) {
-            toast.error('Failed to accept request');
+            // Error handling is managed by the global axios interceptor
         }
     };
 
     const handleDeclineRequest = async (requestId) => {
-        if (!window.confirm('Are you sure you want to decline this request?')) return;
-        try {
-            await requestService.declineRequest(requestId, 'Declined by user');
-            toast.success('Request declined');
-            loadData();
-        } catch (error) {
-            toast.error('Failed to decline request');
-        }
+        setConfirmModalData({
+            title: 'Decline Request',
+            message: 'Are you sure you want to decline this connection request?',
+            confirmText: 'Decline',
+            onConfirm: async () => {
+                try {
+                    await requestService.declineRequest(requestId, 'Declined by user');
+                    toast.success('Request declined');
+                    loadData();
+                } catch (error) { }
+            }
+        });
     };
 
     const handleCancelRequest = async (requestId) => {
-        if (!window.confirm('Cancel this sent request?')) return;
-        try {
-            await requestService.cancelRequest(requestId);
-            toast.success('Request cancelled');
-            loadData();
-        } catch (error) {
-            toast.error('Failed to cancel request');
-        }
+        setConfirmModalData({
+            title: 'Cancel Request',
+            message: 'Are you sure you want to cancel this sent request?',
+            confirmText: 'Cancel Request',
+            onConfirm: async () => {
+                try {
+                    await requestService.cancelRequest(requestId);
+                    toast.success('Request cancelled');
+                    loadData();
+                } catch (error) { }
+            }
+        });
     };
 
     return (
@@ -422,6 +432,16 @@ const Matches = () => {
                     onSubmit={submitConnectRequest}
                 />
             )}
+
+            {/* Confirmation Modal */}
+            <ConfirmModal
+                isOpen={!!confirmModalData}
+                onClose={() => setConfirmModalData(null)}
+                title={confirmModalData?.title}
+                message={confirmModalData?.message}
+                confirmText={confirmModalData?.confirmText}
+                onConfirm={confirmModalData?.onConfirm}
+            />
         </div>
     );
 };

@@ -11,6 +11,25 @@ export default function About() {
             </Helmet>
 
             <div style={{ position: 'relative', width: '100%', minHeight: '100vh', background: '#000000', paddingTop: '64px', overflowX: 'hidden' }}>
+                <style>
+                    {`
+                        .values-grid {
+                            display: grid;
+                            gap: 1.5rem;
+                            grid-template-columns: repeat(4, 1fr);
+                        }
+                        @media (max-width: 1100px) {
+                            .values-grid {
+                                grid-template-columns: repeat(2, 1fr);
+                            }
+                        }
+                        @media (max-width: 640px) {
+                            .values-grid {
+                                grid-template-columns: repeat(1, 1fr);
+                            }
+                        }
+                    `}
+                </style>
 
                 {/* Background Glow */}
                 <div style={{
@@ -139,7 +158,7 @@ export default function About() {
                 {/* Values Grid */}
                 <div style={{ background: '#030305', padding: '6rem 0', borderTop: '1px solid rgba(255,255,255,0.03)' }}>
                     <div style={{
-                        maxWidth: '1000px',
+                        maxWidth: '1200px',
                         margin: '0 auto',
                         padding: '0 2rem',
                     }}>
@@ -152,11 +171,7 @@ export default function About() {
                             </p>
                         </div>
 
-                        <div style={{
-                            display: 'grid',
-                            gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
-                            gap: '1.5rem',
-                        }}>
+                        <div className="values-grid">
                             {[
                                 { icon: <FiUsers />, label: 'Community First', body: 'Every decision we make puts our learners and teachers before anything else. Your safety and growth are our priority.' },
                                 { icon: <FiLock />, label: 'No Barriers', body: 'No cost, no gatekeeping. If you have a skill to share, you belong here. Education should be accessible to all.' },
