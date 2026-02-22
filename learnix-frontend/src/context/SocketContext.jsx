@@ -32,7 +32,7 @@ export const SocketProvider = ({ children }) => {
     };
 
     useEffect(() => {
-        if (isAuthenticated && user) {
+        if (isAuthenticated && user && !socket) {
             const token = localStorage.getItem('accessToken');
             const SOCKET_URL = process.env.REACT_APP_SOCKET_URL || 'http://localhost:5001';
             console.log(`[Socket] Attempting connection to: ${SOCKET_URL}`);
@@ -242,7 +242,7 @@ export const SocketProvider = ({ children }) => {
             setSocket(null);
             setIsConnected(false);
         }
-    }, [isAuthenticated, user, navigate, socket]);
+    }, [isAuthenticated, user, navigate]);
 
     // Dedicated effect to clear unread counts when active match changes
     useEffect(() => {
