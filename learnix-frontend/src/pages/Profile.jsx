@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { Link, useParams, Navigate } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { FiUser, FiMapPin, FiMail, FiStar, FiClock, FiShield, FiX, FiChevronLeft } from 'react-icons/fi';
+import { FiMapPin, FiMail, FiClock, FiShield, FiX, FiChevronLeft } from 'react-icons/fi';
 import api from '../services/api';
 import toast from 'react-hot-toast';
 

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { FiLock, FiArrowLeft } from 'react-icons/fi';
+import { FiArrowLeft } from 'react-icons/fi';
 import { useAuth } from '../context/AuthContext';
 import StarryBackground from '../components/common/StarryBackground';
 import '../styles/AuthLayout.css';

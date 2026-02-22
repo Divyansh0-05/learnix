@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { FiUsers, FiGlobe, FiTarget, FiZap, FiHeart, FiLock, FiArrowLeft } from 'react-icons/fi';
+import { FiUsers, FiGlobe, FiTarget, FiHeart, FiLock, FiArrowLeft } from 'react-icons/fi';
 
 export default function About() {
     return (

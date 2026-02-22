@@ -230,7 +230,7 @@ export const SocketProvider = ({ children }) => {
             setSocket(null);
             setIsConnected(false);
         }
-    }, [isAuthenticated, user]);
+    }, [isAuthenticated, user, navigate, socket]);
 
     // Dedicated effect to clear unread counts when active match changes
     useEffect(() => {

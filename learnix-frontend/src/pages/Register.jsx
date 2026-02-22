@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { FiUser, FiMail, FiLock, FiArrowRight, FiArrowLeft } from 'react-icons/fi';
+import { FiArrowLeft } from 'react-icons/fi';
 import { useAuth } from '../context/AuthContext';
 import StarryBackground from '../components/common/StarryBackground';
 import '../styles/AuthLayout.css';
@@ -16,7 +16,7 @@ export default function Register() {
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
-    const { register, isAuthenticated, loading: authLoading } = useAuth();
+    const { register } = useAuth();
 
     // Removed the useEffect related to isAuthenticated and authLoading as per instruction.
     // The instruction also implies removing the `if (authLoading) return null;` line.
