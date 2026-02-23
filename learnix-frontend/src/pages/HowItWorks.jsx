@@ -58,7 +58,7 @@ export default function HowItWorks() {
                     zIndex: 1,
                     maxWidth: '800px',
                     margin: '0 auto',
-                    padding: '8rem 2rem 4rem',
+                    padding: 'clamp(4rem, 15vh, 8rem) clamp(1rem, 5vw, 2rem) clamp(2rem, 10vh, 4rem)',
                     textAlign: 'center',
                 }}>
                     <div style={{ textAlign: 'left', marginBottom: '1rem' }}>
@@ -103,7 +103,7 @@ export default function HowItWorks() {
 
                     <h1 style={{
                         color: '#fff',
-                        fontSize: 'clamp(2.2rem, 8vw, 4rem)',
+                        fontSize: 'clamp(1.8rem, 8vw, 4rem)',
                         fontWeight: 900,
                         letterSpacing: '-0.04em',
                         lineHeight: 1.1,
@@ -117,7 +117,7 @@ export default function HowItWorks() {
 
                     <p style={{
                         color: 'rgba(255,255,255,0.5)',
-                        fontSize: '1.1rem',
+                        fontSize: 'clamp(0.9rem, 4vw, 1.1rem)',
                         lineHeight: 1.6,
                         maxWidth: '500px',
                         margin: '0 auto',
@@ -213,16 +213,16 @@ export default function HowItWorks() {
                                     <h3 style={{
                                         color: '#fff',
                                         fontWeight: 700,
-                                        fontSize: '1.25rem',
+                                        fontSize: 'clamp(1.1rem, 4vw, 1.25rem)',
                                         letterSpacing: '-0.02em',
-                                        marginBottom: '0.75rem',
+                                        marginBottom: '0.5rem',
                                     }}>
                                         {title}
                                     </h3>
                                     <p style={{
                                         color: 'rgba(255,255,255,0.45)',
-                                        fontSize: '1rem',
-                                        lineHeight: 1.7,
+                                        fontSize: 'clamp(0.85rem, 3.5vw, 1rem)',
+                                        lineHeight: 1.6,
                                     }}>
                                         {desc}
                                     </p>

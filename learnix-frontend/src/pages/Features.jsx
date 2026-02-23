@@ -70,7 +70,7 @@ export default function Features() {
                     zIndex: 1,
                     maxWidth: '800px',
                     margin: '0 auto',
-                    padding: '8rem 2rem 5rem',
+                    padding: 'clamp(4rem, 15vh, 8rem) clamp(1rem, 5vw, 2rem) clamp(2rem, 10vh, 5rem)',
                     textAlign: 'center',
                 }}>
                     <div style={{ textAlign: 'left', marginBottom: '1rem' }}>
@@ -115,7 +115,7 @@ export default function Features() {
 
                     <h1 style={{
                         color: '#fff',
-                        fontSize: 'clamp(2.2rem, 8vw, 4rem)',
+                        fontSize: 'clamp(1.8rem, 8vw, 4rem)',
                         fontWeight: 900,
                         letterSpacing: '-0.04em',
                         lineHeight: 1.1,
@@ -129,7 +129,7 @@ export default function Features() {
 
                     <p style={{
                         color: 'rgba(255,255,255,0.5)',
-                        fontSize: '1.1rem',
+                        fontSize: 'clamp(0.9rem, 4vw, 1.1rem)',
                         lineHeight: 1.6,
                         maxWidth: '600px',
                         margin: '0 auto',
@@ -146,9 +146,9 @@ export default function Features() {
                     zIndex: 1,
                     maxWidth: '1200px',
                     margin: '0 auto',
-                    padding: '0 2rem 8rem',
+                    padding: '0 clamp(1rem, 5vw, 2rem) clamp(2rem, 5vh, 4rem)',
                     display: 'grid',
-                    gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+                    gridTemplateColumns: 'repeat(auto-fit, minmax(clamp(280px, 80vw, 320px), 1fr))',
                     gap: '1.5rem',
                 }}>
                     {features.map(({ icon, title, desc, color }) => (
@@ -229,7 +229,7 @@ export default function Features() {
                 <div style={{
                     borderTop: '1px solid rgba(255,255,255,0.05)',
                     background: 'radial-gradient(ellipse at top center, rgba(255,255,255,0.03) 0%, transparent 70%)',
-                    padding: '6rem 2rem',
+                    padding: 'clamp(3rem, 8vh, 6rem) 2rem',
                     textAlign: 'center'
                 }}>
                     <h2 style={{ color: '#fff', fontSize: 'clamp(1.8rem, 6vw, 2.5rem)', fontWeight: 800, letterSpacing: '-0.04em', marginBottom: '1rem' }}>

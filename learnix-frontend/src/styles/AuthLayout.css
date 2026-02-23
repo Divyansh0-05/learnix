@@ -25,12 +25,21 @@
 
 .auth-card-container {
     width: 100%;
-    max-width: 400px;
+    max-width: 420px;
     background: #0a0a0f;
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 1.25rem;
-    padding: 1.75rem;
+    padding: clamp(1.25rem, 5vw, 2rem);
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 40px rgba(0, 0, 0, 0.5);
     position: relative;
     z-index: 1;
+    margin: auto 0;
+}
+
+@media (max-width: 480px) {
+    .auth-card-container {
+        padding: 1.25rem;
+        background: rgba(10, 10, 15, 0.95);
+        backdrop-filter: blur(10px);
+    }
 }

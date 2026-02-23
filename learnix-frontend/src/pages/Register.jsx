@@ -61,10 +61,10 @@ export default function Register() {
             <StarryBackground />
             <div className="auth-page-wrapper">
                 <div className="auth-card-container">
-                    <h1 style={{ color: '#fff', fontWeight: 800, fontSize: '2rem', letterSpacing: '-0.04em', marginBottom: '0.25rem' }}>
+                    <h1 style={{ color: '#fff', fontWeight: 800, fontSize: 'clamp(1.5rem, 6vw, 2rem)', letterSpacing: '-0.04em', marginBottom: '0.25rem' }}>
                         Create an account
                     </h1>
-                    <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.8rem', marginBottom: '1.25rem' }}>
+                    <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 'clamp(0.75rem, 3vw, 0.85rem)', marginBottom: '1.25rem' }}>
                         Join Learnix and start bartering skills
                     </p>
 
@@ -80,7 +80,7 @@ export default function Register() {
                         }}>{error}</div>
                     )}
 
-                    <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                    <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 'clamp(0.5rem, 3vh, 0.75rem)' }}>
                         <div>
                             <label style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.75rem', fontWeight: 600, letterSpacing: '0.04em', display: 'block', marginBottom: '0.4rem' }}>
                                 FULL NAME

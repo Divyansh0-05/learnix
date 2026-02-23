@@ -50,7 +50,7 @@ export default function About() {
                     zIndex: 1,
                     maxWidth: '800px',
                     margin: '0 auto',
-                    padding: '8rem 2rem 5rem',
+                    padding: 'clamp(4rem, 15vh, 8rem) clamp(1rem, 5vw, 2rem) clamp(2rem, 10vh, 5rem)',
                     textAlign: 'center',
                 }}>
                     <div style={{ textAlign: 'left', marginBottom: '1rem' }}>
@@ -95,7 +95,7 @@ export default function About() {
 
                     <h1 style={{
                         color: '#fff',
-                        fontSize: 'clamp(2.2rem, 8vw, 4rem)',
+                        fontSize: 'clamp(1.8rem, 8vw, 4rem)',
                         fontWeight: 900,
                         letterSpacing: '-0.04em',
                         lineHeight: 1.1,
@@ -109,7 +109,7 @@ export default function About() {
 
                     <p style={{
                         color: 'rgba(255,255,255,0.5)',
-                        fontSize: '1.1rem',
+                        fontSize: 'clamp(0.95rem, 3.5vw, 1.1rem)',
                         lineHeight: 1.6,
                         maxWidth: '600px',
                         margin: '0 auto',
@@ -125,7 +125,7 @@ export default function About() {
                 <div style={{
                     maxWidth: '1000px',
                     margin: '0 auto',
-                    padding: '0 2rem 6rem',
+                    padding: '0 clamp(1rem, 5vw, 2rem) clamp(4rem, 10vh, 6rem)',
                     position: 'relative',
                     zIndex: 1
                 }}>
@@ -133,40 +133,40 @@ export default function About() {
                         background: 'rgba(255,255,255,0.02)',
                         border: '1px solid rgba(255,255,255,0.05)',
                         borderRadius: '2rem',
-                        padding: '3rem',
+                        padding: 'clamp(2rem, 6vw, 3.5rem) clamp(1rem, 4vw, 2rem)',
                         display: 'grid',
-                        gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-                        gap: '2rem',
+                        gridTemplateColumns: 'repeat(auto-fit, minmax(clamp(160px, 40vw, 200px), 1fr))',
+                        gap: 'clamp(1.5rem, 5vw, 2.5rem)',
                         textAlign: 'center',
                         backdropFilter: 'blur(10px)'
                     }}>
                         <div>
-                            <div style={{ fontSize: '2.5rem', fontWeight: 800, color: '#fff', marginBottom: '0.5rem' }}>100%</div>
-                            <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.85rem', fontWeight: 500, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Free forever</div>
+                            <div style={{ fontSize: 'clamp(2rem, 8vw, 2.5rem)', fontWeight: 800, color: '#fff', marginBottom: '0.25rem' }}>100%</div>
+                            <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.8rem', fontWeight: 500, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Free forever</div>
                         </div>
                         <div>
-                            <div style={{ fontSize: '2.5rem', fontWeight: 800, color: '#fff', marginBottom: '0.5rem' }}>Zero</div>
-                            <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.85rem', fontWeight: 500, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Hidden fees</div>
+                            <div style={{ fontSize: 'clamp(2rem, 8vw, 2.5rem)', fontWeight: 800, color: '#fff', marginBottom: '0.25rem' }}>Zero</div>
+                            <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.8rem', fontWeight: 500, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Hidden fees</div>
                         </div>
                         <div>
-                            <div style={{ fontSize: '2.5rem', fontWeight: 800, color: '#fff', marginBottom: '0.5rem' }}>Infinite</div>
-                            <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.85rem', fontWeight: 500, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Learning potential</div>
+                            <div style={{ fontSize: 'clamp(2rem, 8vw, 2.5rem)', fontWeight: 800, color: '#fff', marginBottom: '0.25rem' }}>Infinite</div>
+                            <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.8rem', fontWeight: 500, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Learning potential</div>
                         </div>
                     </div>
                 </div>
 
                 {/* Values Grid */}
-                <div style={{ background: '#030305', padding: '6rem 0', borderTop: '1px solid rgba(255,255,255,0.03)' }}>
+                <div style={{ background: '#030305', padding: 'clamp(4rem, 10vh, 6rem) 0', borderTop: '1px solid rgba(255,255,255,0.03)' }}>
                     <div style={{
                         maxWidth: '1200px',
                         margin: '0 auto',
-                        padding: '0 2rem',
+                        padding: '0 clamp(1rem, 5vw, 2rem)',
                     }}>
-                        <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
-                            <h2 style={{ color: '#fff', fontSize: '2.2rem', fontWeight: 800, letterSpacing: '-0.03em', marginBottom: '1rem' }}>
+                        <div style={{ textAlign: 'center', marginBottom: 'clamp(2rem, 8vh, 4rem)' }}>
+                            <h2 style={{ color: '#fff', fontSize: 'clamp(1.8rem, 6vw, 2.2rem)', fontWeight: 800, letterSpacing: '-0.03em', marginBottom: '1rem' }}>
                                 Built on core values
                             </h2>
-                            <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '1rem' }}>
+                            <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 'clamp(0.9rem, 3.5vw, 1rem)' }}>
                                 We designed Learnix to foster genuine human connections.
                             </p>
                         </div>
@@ -182,7 +182,7 @@ export default function About() {
                                     background: 'rgba(255,255,255,0.02)',
                                     border: '1px solid rgba(255,255,255,0.06)',
                                     borderRadius: '1.5rem',
-                                    padding: '2.5rem 2rem',
+                                    padding: 'clamp(1.5rem, 5vw, 2.5rem) clamp(1.25rem, 4vw, 2rem)',
                                     transition: 'all 0.3s ease',
                                     // Hover effect handled below via onMouse events
                                 }}

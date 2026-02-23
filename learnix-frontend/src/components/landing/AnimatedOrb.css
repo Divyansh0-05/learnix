@@ -250,89 +250,88 @@
 /* For Phone range (iPhone Mini/SE/Pro) */
 @media screen and (max-width: 430px) {
     .orb-container {
-        width: 100px;
-        height: 100px;
-        top: 45%;
-        /* Slightly lower to prevent overlap with header */
+        width: 140px;
+        height: 140px;
+        top: 50%;
     }
 
     .glowing-orb {
-        width: 60px;
-        height: 60px;
-        box-shadow: 0 0 50px 25px rgba(180, 200, 255, 0.4), inset 0 0 12px 6px #ffffff;
+        width: 80px;
+        height: 80px;
+        box-shadow: 0 0 70px 35px rgba(180, 200, 255, 0.4), inset 0 0 18px 9px #ffffff;
     }
 
     .orbit-ring {
-        width: 340px;
-        height: 340px;
+        width: 440px;
+        height: 440px;
     }
 
     .orbit-ring-inner {
-        width: 180px;
-        height: 180px;
+        width: 240px;
+        height: 240px;
     }
 
     .skill-icon {
-        width: 42px;
-        height: 42px;
-        font-size: 1.1rem;
+        width: 56px;
+        height: 56px;
+        font-size: 1.4rem;
     }
 
     .skill-icon-inner {
-        width: 34px;
-        height: 34px;
-        font-size: 0.9rem;
+        width: 44px;
+        height: 44px;
+        font-size: 1.1rem;
     }
 
     /* Outer Ring offsets (-(size/2)) */
     .item-1 {
-        top: -21px;
-        left: calc(50% - 21px);
+        top: -28px;
+        left: calc(50% - 28px);
     }
 
     .item-2 {
-        bottom: -21px;
-        left: calc(50% - 21px);
+        bottom: -28px;
+        left: calc(50% - 28px);
     }
 
     .item-3 {
-        left: -21px;
-        top: calc(50% - 21px);
+        left: -28px;
+        top: calc(50% - 28px);
     }
 
     .item-4 {
-        right: -21px;
-        top: calc(50% - 21px);
+        right: -28px;
+        top: calc(50% - 28px);
     }
 
     .item-5 {
-        top: 45px;
-        left: 45px;
+        top: 60px;
+        left: 60px;
     }
 
     .item-6 {
-        bottom: 45px;
-        right: 45px;
+        bottom: 60px;
+        right: 60px;
     }
 
     /* Inner Ring offsets (-(size/2)) */
     .inner-1 {
-        top: -17px;
-        left: calc(50% - 17px);
+        top: -22px;
+        left: calc(50% - 22px);
     }
 
     .inner-2 {
-        bottom: -17px;
-        left: calc(50% - 17px);
+        bottom: -22px;
+        left: calc(50% - 22px);
     }
 
     .inner-3 {
-        left: -17px;
-        top: calc(50% - 17px);
+        left: -22px;
+        top: calc(50% - 22px);
     }
 
     .inner-4 {
-        right: -17px;
-        top: calc(50% - 17px);
+        right: -22px;
+        top: calc(50% - 22px);
     }
 }

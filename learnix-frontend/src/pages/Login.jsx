@@ -48,10 +48,10 @@ export default function Login() {
             <StarryBackground />
             <div className="auth-page-wrapper">
                 <div className="auth-card-container">
-                    <h1 style={{ color: '#fff', fontWeight: 800, fontSize: '1.4rem', letterSpacing: '-0.03em', marginBottom: '0.2rem' }}>
+                    <h1 style={{ color: '#fff', fontWeight: 800, fontSize: 'clamp(1.25rem, 5vw, 1.8rem)', letterSpacing: '-0.03em', marginBottom: '0.2rem' }}>
                         Welcome back
                     </h1>
-                    <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.8rem', marginBottom: '1.25rem' }}>
+                    <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 'clamp(0.75rem, 3vw, 0.85rem)', marginBottom: '1.25rem' }}>
                         Sign in to your Learnix account
                     </p>
 
@@ -67,7 +67,7 @@ export default function Login() {
                         }}>{error}</div>
                     )}
 
-                    <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                    <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 'clamp(0.5rem, 3vh, 0.75rem)' }}>
                         <div>
                             <label style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.7rem', fontWeight: 600, letterSpacing: '0.04em', display: 'block', marginBottom: '0.2rem' }}>
                                 EMAIL
