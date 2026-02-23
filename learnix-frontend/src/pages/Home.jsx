@@ -24,7 +24,15 @@ export default function Home() {
             </Helmet>
 
             {/* ── Full-viewport wrapper ── */}
-            <div style={{ position: 'relative', width: '100vw', height: '100vh', overflow: 'hidden', backgroundColor: '#000000' }}>
+            <div style={{
+                position: 'fixed',
+                inset: 0,
+                width: '100vw',
+                height: '100dvh',
+                overflow: 'hidden',
+                backgroundColor: '#000000',
+                zIndex: 0
+            }}>
 
                 {/* ── CSS Animated Orb ── */}
                 <div style={{
