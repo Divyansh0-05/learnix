@@ -23,6 +23,7 @@ import HowItWorks from './pages/HowItWorks';
 import Register from './pages/Register';
 import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
+import VerifyEmail from './pages/VerifyEmail';
 
 // Pages — App
 import Dashboard from './pages/Dashboard';
@@ -36,7 +37,7 @@ function Layout({ children }) {
     const location = useLocation();
     const isHome = location.pathname === '/';
     const isChat = location.pathname.startsWith('/chat');
-    const isAuthPage = ['/login', '/register', '/forgot-password', '/reset-password'].some(path => location.pathname.startsWith(path));
+    const isAuthPage = ['/login', '/register', '/forgot-password', '/reset-password', '/verify-email'].some(path => location.pathname.startsWith(path));
 
     React.useEffect(() => {
         // Synchronous immediate scroll to top on route change
@@ -72,6 +73,7 @@ function App() {
                                 <Route path="/how-it-works" element={<HowItWorks />} />
                                 <Route path="/forgot-password" element={<ForgotPassword />} />
                                 <Route path="/reset-password/:token" element={<ResetPassword />} />
+                                <Route path="/verify-email/:token" element={<VerifyEmail />} />
 
                                 {/* Protected */}
                                 <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
