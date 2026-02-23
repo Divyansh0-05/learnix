@@ -3,8 +3,8 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 300px;
-    height: 300px;
+    width: 270px;
+    height: 270px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -12,8 +12,8 @@
 }
 
 .glowing-orb {
-    width: 150px;
-    height: 150px;
+    width: 120px;
+    height: 120px;
     background: radial-gradient(circle, #ffffff 0%, rgba(200, 220, 255, 0.8) 40%, rgba(0, 0, 0, 0) 70%);
     border-radius: 50%;
     box-shadow: 0 0 80px 40px rgba(180, 200, 255, 0.4),
@@ -36,8 +36,8 @@
 
 .orbit-ring {
     position: absolute;
-    width: 600px;
-    height: 600px;
+    width: 570px;
+    height: 570px;
     border: 1px dashed rgba(255, 255, 255, 0.1);
     border-radius: 50%;
     animation: spinRing 40s linear infinite;
@@ -48,8 +48,8 @@
 
 .orbit-ring-inner {
     position: absolute;
-    width: 400px;
-    height: 400px;
+    width: 370px;
+    height: 370px;
     border: 1px dashed rgba(255, 255, 255, 0.15);
     border-radius: 50%;
     animation: spinRingReverse 25s linear infinite;
@@ -165,4 +165,174 @@
 .inner-4 {
     right: -25px;
     top: calc(50% - 25px);
+}
+
+/* 📱 Mobile Responsiveness Fix */
+
+/* For Tablet range */
+@media screen and (max-width: 768px) {
+    .orb-container {
+        width: 180px;
+        height: 180px;
+        top: 42%;
+    }
+
+    .glowing-orb {
+        width: 80px;
+        height: 80px;
+    }
+
+    .orbit-ring {
+        width: 420px;
+        height: 420px;
+    }
+
+    .orbit-ring-inner {
+        width: 200px;
+        /* Reduced for collision safety */
+        height: 200px;
+    }
+
+    .skill-icon {
+        width: 44px;
+        height: 44px;
+        font-size: 1.1rem;
+    }
+
+    .skill-icon-inner {
+        width: 34px;
+        height: 34px;
+        font-size: 0.9rem;
+    }
+
+    /* Offsets recalibration */
+    .item-1 {
+        top: -22px;
+        left: calc(50% - 22px);
+    }
+
+    .item-2 {
+        bottom: -22px;
+        left: calc(50% - 22px);
+    }
+
+    .item-3 {
+        left: -22px;
+        top: calc(50% - 22px);
+    }
+
+    .item-4 {
+        right: -22px;
+        top: calc(50% - 22px);
+    }
+
+    .inner-1 {
+        top: -17px;
+        left: calc(50% - 17px);
+    }
+
+    .inner-2 {
+        bottom: -17px;
+        left: calc(50% - 17px);
+    }
+
+    .inner-3 {
+        left: -17px;
+        top: calc(50% - 17px);
+    }
+
+    .inner-4 {
+        right: -17px;
+        top: calc(50% - 17px);
+    }
+}
+
+/* For Phone range (iPhone Mini/SE/Pro) */
+@media screen and (max-width: 430px) {
+    .orb-container {
+        width: 100px;
+        height: 100px;
+        top: 38%;
+    }
+
+    .glowing-orb {
+        width: 20px;
+        height: 20px;
+        box-shadow: 0 0 30px 15px rgba(180, 200, 255, 0.4), inset 0 0 8px 4px #ffffff;
+    }
+
+    .orbit-ring {
+        width: 260px;
+        height: 260px;
+    }
+
+    .orbit-ring-inner {
+        width: 70px;
+        /* Micro-ring for collision safety */
+        height: 70px;
+    }
+
+    .skill-icon {
+        width: 26px;
+        height: 26px;
+        font-size: 0.75rem;
+    }
+
+    .skill-icon-inner {
+        width: 18px;
+        height: 18px;
+        font-size: 0.6rem;
+    }
+
+    /* Outer Ring offsets */
+    .item-1 {
+        top: -13px;
+        left: calc(50% - 13px);
+    }
+
+    .item-2 {
+        bottom: -13px;
+        left: calc(50% - 13px);
+    }
+
+    .item-3 {
+        left: -13px;
+        top: calc(50% - 13px);
+    }
+
+    .item-4 {
+        right: -13px;
+        top: calc(50% - 13px);
+    }
+
+    .item-5 {
+        top: 30px;
+        left: 30px;
+    }
+
+    .item-6 {
+        bottom: 30px;
+        right: 30px;
+    }
+
+    /* Inner Ring offsets */
+    .inner-1 {
+        top: -9px;
+        left: calc(50% - 9px);
+    }
+
+    .inner-2 {
+        bottom: -9px;
+        left: calc(50% - 9px);
+    }
+
+    .inner-3 {
+        left: -9px;
+        top: calc(50% - 9px);
+    }
+
+    .inner-4 {
+        right: -9px;
+        top: calc(50% - 9px);
+    }
 }

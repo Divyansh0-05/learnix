@@ -103,7 +103,7 @@ const Matches = () => {
     };
 
     return (
-        <div style={{ minHeight: '100vh', background: '#000000', padding: '7rem 2rem 4rem' }}>
+        <div style={{ minHeight: '100vh', background: '#000000', padding: '7rem 1rem 4rem' }} className="sm:px-8 px-4">
             <div className="container mx-auto px-4">
                 <div className="flex flex-col md:flex-row justify-between items-center mb-10">
                     <div>
@@ -136,49 +136,36 @@ const Matches = () => {
                     </div>
                 </div>
 
-                {/* Main Tabs */}
-                <div style={{ display: 'flex', gap: '0.5rem', background: 'rgba(255,255,255,0.03)', padding: '0.25rem', borderRadius: '2rem', width: 'fit-content', marginBottom: '2rem' }}>
+                {/* Main Tabs - Wrapping for Mobile Visibility */}
+                <div className="mb-8 w-full flex flex-wrap gap-2 md:bg-white/5 md:p-1 md:rounded-full md:w-fit transition-all duration-300">
                     <button
                         onClick={() => setActiveTab('suggested')}
-                        style={{
-                            padding: '0.5rem 1.25rem',
-                            borderRadius: '2rem',
-                            fontSize: '0.85rem',
-                            fontWeight: 600,
-                            transition: 'all 0.2s',
-                            background: activeTab === 'suggested' ? '#ffffff' : 'transparent',
-                            color: activeTab === 'suggested' ? '#000000' : 'rgba(255,255,255,0.5)',
-                        }}
+                        className={`px-4 md:px-6 py-2 rounded-full text-xs md:text-sm font-semibold transition-all duration-200 flex-1 sm:flex-none ${activeTab === 'suggested'
+                            ? 'bg-white text-black shadow-lg'
+                            : 'bg-white/5 text-white/50 border border-white/10'
+                            }`}
                     >
-                        Suggested Matches
+                        <span className="hidden sm:inline">Suggested Matches</span>
+                        <span className="sm:hidden">Matches</span>
                     </button>
                     <button
                         onClick={() => setActiveTab('requests')}
-                        style={{
-                            padding: '0.5rem 1.25rem',
-                            borderRadius: '2rem',
-                            fontSize: '0.85rem',
-                            fontWeight: 600,
-                            transition: 'all 0.2s',
-                            background: activeTab === 'requests' ? '#ffffff' : 'transparent',
-                            color: activeTab === 'requests' ? '#000000' : 'rgba(255,255,255,0.5)',
-                        }}
+                        className={`px-4 md:px-6 py-2 rounded-full text-xs md:text-sm font-semibold transition-all duration-200 flex-1 sm:flex-none ${activeTab === 'requests'
+                            ? 'bg-white text-black shadow-lg'
+                            : 'bg-white/5 text-white/50 border border-white/10'
+                            }`}
                     >
                         Requests
                     </button>
                     <button
                         onClick={() => setActiveTab('active')}
-                        style={{
-                            padding: '0.5rem 1.25rem',
-                            borderRadius: '2rem',
-                            fontSize: '0.85rem',
-                            fontWeight: 600,
-                            transition: 'all 0.2s',
-                            background: activeTab === 'active' ? '#ffffff' : 'transparent',
-                            color: activeTab === 'active' ? '#000000' : 'rgba(255,255,255,0.5)',
-                        }}
+                        className={`px-4 md:px-6 py-2 rounded-full text-xs md:text-sm font-semibold transition-all duration-200 flex-1 sm:flex-none ${activeTab === 'active'
+                            ? 'bg-white text-black shadow-lg'
+                            : 'bg-white/5 text-white/50 border border-white/10'
+                            }`}
                     >
-                        Active Connections
+                        <span className="hidden sm:inline">Active Connections</span>
+                        <span className="sm:hidden">Active</span>
                     </button>
                 </div>
 
@@ -240,7 +227,7 @@ const Matches = () => {
 
                                             <div className="space-y-4 mb-6">
                                                 <div>
-                                                    <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.7rem', fontWeight: 700, letterSpacing: '0.05em', textTransform: 'uppercase', marginBottom: '0.4rem' }}>They Offer:</p>
+                                                    <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.05em', textTransform: 'uppercase', marginBottom: '0.4rem' }}>They Offer:</p>
                                                     <div className="flex flex-col gap-2">
                                                         {match.user.skillsOffered.map(s => (
                                                             <div key={s._id} style={{ background: 'rgba(16,185,129,0.05)', border: '1px solid rgba(16,185,129,0.1)', padding: '0.75rem', borderRadius: '0.5rem' }}>
@@ -256,7 +243,7 @@ const Matches = () => {
                                                     </div>
                                                 </div>
                                                 <div>
-                                                    <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.7rem', fontWeight: 700, letterSpacing: '0.05em', textTransform: 'uppercase', marginBottom: '0.4rem' }}>They Want:</p>
+                                                    <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.05em', textTransform: 'uppercase', marginBottom: '0.4rem' }}>They Want:</p>
                                                     <div className="flex flex-col gap-2">
                                                         {match.user.skillsWanted.map(s => (
                                                             <div key={s._id} style={{ background: 'rgba(59,130,246,0.05)', border: '1px solid rgba(59,130,246,0.1)', padding: '0.75rem', borderRadius: '0.5rem' }}>
@@ -300,7 +287,7 @@ const Matches = () => {
                         {/* Requests */}
                         {activeTab === 'requests' && (
                             <div>
-                                <div className="flex space-x-6 border-b border-gray-800 mb-6">
+                                <div className="flex space-x-6 border-b border-gray-800 mb-6 overflow-x-auto whitespace-nowrap scrollbar-hide">
                                     <button
                                         onClick={() => setSubTab('received')}
                                         style={{
@@ -330,8 +317,8 @@ const Matches = () => {
 
                                             return (
                                                 <div key={req.id} style={{
-                                                    background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '1rem', padding: '1rem', display: 'flex', flexDirection: 'column', md: { flexDirection: 'row' }, justifyContent: 'space-between', alignItems: 'center', gap: '1rem'
-                                                }} className="md:flex-row">
+                                                    background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '1rem', padding: '1rem'
+                                                }} className="flex flex-col sm:flex-row justify-between items-center gap-4">
                                                     <div className="flex items-center space-x-4 w-full md:w-auto">
                                                         <div style={{
                                                             width: '40px', height: '40px', borderRadius: '50%', background: 'rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#ffffff', fontWeight: 800
@@ -351,7 +338,7 @@ const Matches = () => {
                                                         </div>
                                                     </div>
 
-                                                    <div className="flex space-x-3 w-full md:w-auto mt-4 md:mt-0">
+                                                    <div className="flex space-x-3 w-full sm:w-auto mt-2 sm:mt-0 justify-end">
                                                         {subTab === 'received' ? (
                                                             <>
                                                                 <button
@@ -421,17 +408,20 @@ const Matches = () => {
                             </div>
                         )}
                     </>
-                )}
-            </div>
+                )
+                }
+            </div >
 
             {/* Connect Modal */}
-            {connectModalData && (
-                <ConnectModal
-                    data={connectModalData}
-                    onClose={() => setConnectModalData(null)}
-                    onSubmit={submitConnectRequest}
-                />
-            )}
+            {
+                connectModalData && (
+                    <ConnectModal
+                        data={connectModalData}
+                        onClose={() => setConnectModalData(null)}
+                        onSubmit={submitConnectRequest}
+                    />
+                )
+            }
 
             {/* Confirmation Modal */}
             <ConfirmModal
@@ -442,7 +432,7 @@ const Matches = () => {
                 confirmText={confirmModalData?.confirmText}
                 onConfirm={confirmModalData?.onConfirm}
             />
-        </div>
+        </div >
     );
 };
 

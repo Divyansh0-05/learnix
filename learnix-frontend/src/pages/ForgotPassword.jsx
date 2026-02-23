@@ -46,27 +46,6 @@ export default function ForgotPassword() {
             </Helmet>
             <StarryBackground />
             <div className="auth-page-wrapper">
-                <div className="back-link-container">
-                    <Link
-                        to="/login"
-                        style={{
-                            display: 'inline-flex',
-                            alignItems: 'center',
-                            gap: '0.5rem',
-                            color: 'rgba(255,255,255,0.4)',
-                            textDecoration: 'none',
-                            fontSize: '0.75rem',
-                            fontWeight: 700,
-                            letterSpacing: '0.1em',
-                            textTransform: 'uppercase',
-                            transition: 'color 0.2s'
-                        }}
-                        onMouseEnter={e => e.currentTarget.style.color = '#fff'}
-                        onMouseLeave={e => e.currentTarget.style.color = 'rgba(255,255,255,0.4)'}
-                    >
-                        <FiArrowLeft /> Back to Login
-                    </Link>
-                </div>
                 <div className="auth-card-container">
                     <h1 style={{ color: '#fff', fontWeight: 800, fontSize: '1.4rem', letterSpacing: '-0.03em', marginBottom: '0.2rem' }}>
                         Forgot password?

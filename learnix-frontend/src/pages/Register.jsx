@@ -60,29 +60,8 @@ export default function Register() {
             </Helmet>
             <StarryBackground />
             <div className="auth-page-wrapper">
-                <div className="back-link-container">
-                    <Link
-                        to="/"
-                        style={{
-                            display: 'inline-flex',
-                            alignItems: 'center',
-                            gap: '0.5rem',
-                            color: 'rgba(255,255,255,0.4)',
-                            textDecoration: 'none',
-                            fontSize: '0.75rem',
-                            fontWeight: 700,
-                            letterSpacing: '0.1em',
-                            textTransform: 'uppercase',
-                            transition: 'color 0.2s'
-                        }}
-                        onMouseEnter={e => e.currentTarget.style.color = '#fff'}
-                        onMouseLeave={e => e.currentTarget.style.color = 'rgba(255,255,255,0.4)'}
-                    >
-                        <FiArrowLeft /> Back to Home
-                    </Link>
-                </div>
                 <div className="auth-card-container">
-                    <h1 style={{ color: '#fff', fontWeight: 800, fontSize: '1.4rem', letterSpacing: '-0.03em', marginBottom: '0.2rem' }}>
+                    <h1 style={{ color: '#fff', fontWeight: 800, fontSize: '2rem', letterSpacing: '-0.04em', marginBottom: '0.25rem' }}>
                         Create an account
                     </h1>
                     <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.8rem', marginBottom: '1.25rem' }}>
@@ -103,7 +82,7 @@ export default function Register() {
 
                     <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
                         <div>
-                            <label style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.7rem', fontWeight: 600, letterSpacing: '0.04em', display: 'block', marginBottom: '0.2rem' }}>
+                            <label style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.75rem', fontWeight: 600, letterSpacing: '0.04em', display: 'block', marginBottom: '0.4rem' }}>
                                 FULL NAME
                             </label>
                             <input
@@ -118,7 +97,7 @@ export default function Register() {
                             />
                         </div>
                         <div>
-                            <label style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.7rem', fontWeight: 600, letterSpacing: '0.04em', display: 'block', marginBottom: '0.2rem' }}>
+                            <label style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.75rem', fontWeight: 600, letterSpacing: '0.04em', display: 'block', marginBottom: '0.4rem' }}>
                                 EMAIL
                             </label>
                             <input
@@ -132,9 +111,9 @@ export default function Register() {
                                 onBlur={e => (e.target.style.borderColor = 'rgba(255,255,255,0.10)')}
                             />
                         </div>
-                        <div style={{ display: 'flex', gap: '0.75rem' }}>
-                            <div style={{ flex: 1 }}>
-                                <label style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.7rem', fontWeight: 600, letterSpacing: '0.04em', display: 'block', marginBottom: '0.2rem' }}>
+                        <div className="flex flex-col sm:flex-row gap-3">
+                            <div className="flex-1">
+                                <label style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.75rem', fontWeight: 600, letterSpacing: '0.04em', display: 'block', marginBottom: '0.4rem' }}>
                                     CITY
                                 </label>
                                 <input
@@ -148,8 +127,8 @@ export default function Register() {
                                     onBlur={e => (e.target.style.borderColor = 'rgba(255,255,255,0.10)')}
                                 />
                             </div>
-                            <div style={{ flex: 1 }}>
-                                <label style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.7rem', fontWeight: 600, letterSpacing: '0.04em', display: 'block', marginBottom: '0.2rem' }}>
+                            <div className="flex-1">
+                                <label style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.75rem', fontWeight: 600, letterSpacing: '0.04em', display: 'block', marginBottom: '0.4rem' }}>
                                     COUNTRY
                                 </label>
                                 <input
@@ -165,7 +144,7 @@ export default function Register() {
                             </div>
                         </div>
                         <div>
-                            <label style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.7rem', fontWeight: 600, letterSpacing: '0.04em', display: 'block', marginBottom: '0.2rem' }}>
+                            <label style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.75rem', fontWeight: 600, letterSpacing: '0.04em', display: 'block', marginBottom: '0.4rem' }}>
                                 PREFERRED MODE
                             </label>
                             <select
@@ -179,7 +158,7 @@ export default function Register() {
                             </select>
                         </div>
                         <div>
-                            <label style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.7rem', fontWeight: 600, letterSpacing: '0.04em', display: 'block', marginBottom: '0.2rem' }}>
+                            <label style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.75rem', fontWeight: 600, letterSpacing: '0.04em', display: 'block', marginBottom: '0.4rem' }}>
                                 PASSWORD
                             </label>
                             <input

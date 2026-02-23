@@ -110,7 +110,7 @@ export default function Profile() {
                             pointerEvents: 'none'
                         }} />
 
-                        <div style={{ display: 'flex', alignItems: 'flex-start', gap: '2rem', position: 'relative', zIndex: 1 }}>
+                        <div className="flex flex-col sm:flex-row items-center sm:items-start gap-8 relative z-10 text-center sm:text-left">
                             {/* Avatar */}
                             <div style={{
                                 width: '100px',
@@ -129,10 +129,10 @@ export default function Profile() {
                             </div>
 
                             {/* Info */}
-                            <div style={{ flexGrow: 1 }}>
-                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                            <div className="flex-1 w-full">
+                                <div className="flex flex-col sm:flex-row justify-between items-center sm:items-start gap-4">
                                     <div>
-                                        <h1 style={{ color: '#fff', fontSize: '1.8rem', fontWeight: 800, letterSpacing: '-0.03em', marginBottom: '0.25rem' }}>
+                                        <h1 style={{ color: '#fff', fontSize: '2rem', fontWeight: 800, letterSpacing: '-0.04em', marginBottom: '0.25rem' }}>
                                             {profileUser.name}
                                         </h1>
                                         <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', color: 'rgba(255,255,255,0.4)', fontSize: '0.85rem' }}>
@@ -168,7 +168,7 @@ export default function Profile() {
                                     )}
                                 </div>
 
-                                <div style={{ marginTop: '1.5rem', display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+                                <div className="mt-6 flex flex-wrap justify-center sm:justify-start gap-2">
                                     <span style={{
                                         display: 'inline-flex',
                                         alignItems: 'center',
@@ -201,7 +201,7 @@ export default function Profile() {
                                 </div>
 
                                 {profileUser.bio && (
-                                    <div style={{ marginTop: '1.5rem', color: 'rgba(255,255,255,0.85)', fontSize: '0.9rem', lineHeight: 1.6, maxWidth: '600px' }}>
+                                    <div className="mt-6 text-white/80 text-sm leading-relaxed max-w-2xl mx-auto sm:mx-0">
                                         {profileUser.bio}
                                     </div>
                                 )}
@@ -210,7 +210,7 @@ export default function Profile() {
                     </div>
 
                     {/* Skills Section */}
-                    <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) minmax(0, 1fr)', gap: '1.5rem' }}>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         {/* Teaching */}
                         <div style={{
                             background: 'rgba(255,255,255,0.02)',
