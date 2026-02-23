@@ -69,7 +69,7 @@ export default function Home() {
                 }}>
                     {/* Wordmark */}
                     <h1 style={{
-                        fontSize: 'clamp(3.5rem, 10vw, 7rem)',
+                        fontSize: 'clamp(2.5rem, 10vw, 6rem)',
                         fontWeight: 900,
                         letterSpacing: '-0.05em',
                         color: '#ffffff',

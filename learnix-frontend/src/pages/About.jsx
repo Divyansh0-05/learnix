@@ -95,7 +95,7 @@ export default function About() {
 
                     <h1 style={{
                         color: '#fff',
-                        fontSize: 'clamp(2.5rem, 6vw, 4.5rem)',
+                        fontSize: 'clamp(2.2rem, 8vw, 4rem)',
                         fontWeight: 900,
                         letterSpacing: '-0.04em',
                         lineHeight: 1.1,

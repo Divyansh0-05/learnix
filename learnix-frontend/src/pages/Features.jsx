@@ -115,7 +115,7 @@ export default function Features() {
 
                     <h1 style={{
                         color: '#fff',
-                        fontSize: 'clamp(2.5rem, 6vw, 4.5rem)',
+                        fontSize: 'clamp(2.2rem, 8vw, 4rem)',
                         fontWeight: 900,
                         letterSpacing: '-0.04em',
                         lineHeight: 1.1,
@@ -232,7 +232,7 @@ export default function Features() {
                     padding: '6rem 2rem',
                     textAlign: 'center'
                 }}>
-                    <h2 style={{ color: '#fff', fontSize: '2.5rem', fontWeight: 800, letterSpacing: '-0.04em', marginBottom: '1rem' }}>
+                    <h2 style={{ color: '#fff', fontSize: 'clamp(1.8rem, 6vw, 2.5rem)', fontWeight: 800, letterSpacing: '-0.04em', marginBottom: '1rem' }}>
                         Ready to start swapping?
                     </h2>
                     <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '1.1rem', marginBottom: '2.5rem', maxWidth: '500px', margin: '0 auto 2.5rem' }}>
