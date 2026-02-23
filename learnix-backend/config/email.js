@@ -27,13 +27,17 @@ const sendEmail = async (options) => {
         return { messageId: 'dev-fallback-' + Date.now() };
     }
 
-    // Create transporter based on service in .env
+    // Create transporter with explicit settings (often more reliable on Render)
     const transporter = nodemailer.createTransport({
-        service: process.env.EMAIL_SERVICE || 'gmail',
+        host: 'smtp.gmail.com',
+        port: 465,
+        secure: true, // true for 465, false for other ports
         auth: {
             user: process.env.EMAIL_FROM,
             pass: process.env.EMAIL_PASSWORD,
         },
+        // Add a timeout to avoid long waits
+        connectionTimeout: 10000, // 10 seconds
     });
 
     const mailOptions = {
