@@ -1,65 +1,65 @@
-const nodemailer = require('nodemailer');
+const sgMail = require('@sendgrid/mail');
+const logger = require('../utils/logger');
 
 /**
- * Send email utility
+ * Send email utility using SendGrid API
  * @param {Object} options - Email options (email, subject, message, html)
  */
 const sendEmail = async (options) => {
-    const isDevelopment = process.env.NODE_ENV === 'development';
-
     // Check if we have the necessary credentials
-    const hasValidCredentials =
-        process.env.EMAIL_PASSWORD &&
-        process.env.EMAIL_PASSWORD !== 'your_16_character_app_password' &&
-        process.env.EMAIL_PASSWORD !== '';
+    const hasValidApiKey =
+        process.env.SENDGRID_API_KEY &&
+        process.env.SENDGRID_API_KEY !== 'your_sendgrid_api_key' &&
+        process.env.SENDGRID_API_KEY !== '';
 
-    // Development Fallback: If no credentials, log to console
-    if (!hasValidCredentials) {
-        console.log('\n--- DEVELOPMENT EMAIL FALLBACK ---');
+    // Development Fallback: If no API key, log to console
+    if (!hasValidApiKey || process.env.NODE_ENV === 'development') {
+        if (!hasValidApiKey) {
+            console.log('\n--- DEVELOPMENT EMAIL FALLBACK (No API Key) ---');
+        } else {
+            console.log('\n--- DEVELOPMENT EMAIL LOG ---');
+        }
         console.log(`TO:      ${options.email}`);
         console.log(`SUBJECT: ${options.subject}`);
-        console.log(`BODY:    ${options.message || 'HTML Content (check below)'}`);
-        if (options.data && options.data.resetUrl) {
-            console.log(`LINK:    ${options.data.resetUrl}`);
-        }
-        console.log('----------------------------------\n');
+        console.log(`BODY:    ${options.message || 'HTML Content'}`);
+        console.log('------------------------------------------\n');
 
-        return { messageId: 'dev-fallback-' + Date.now() };
+        // If we have an API key, we can still try to send it even in development 
+        // if you want, but usually console logging is safer for dev.
+        if (!hasValidApiKey) return { messageId: 'dev-fallback-' + Date.now() };
     }
 
-    // Create transporter with explicit settings (often more reliable on Render)
-    const transporter = nodemailer.createTransport({
-        host: 'smtp.gmail.com',
-        port: 465,
-        secure: true, // true for 465, false for other ports
-        auth: {
-            user: process.env.EMAIL_FROM,
-            pass: process.env.EMAIL_PASSWORD,
-        },
-        // Force IPv4 to avoid ENETUNREACH errors with IPv6 on some cloud providers
-        family: 4,
-        // Add a timeout to avoid long waits
-        connectionTimeout: 10000, // 10 seconds
-    });
+    sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
-    const mailOptions = {
-        from: `"Learnix Support" <${process.env.EMAIL_FROM}>`,
+    const msg = {
         to: options.email,
+        from: {
+            email: process.env.EMAIL_FROM,
+            name: 'Learnix Support'
+        },
         subject: options.subject,
         text: options.message,
         html: options.html,
     };
 
     try {
-        const info = await transporter.sendMail(mailOptions);
-        console.log(`Email sent successfully: ${info.messageId}`);
-        return info;
+        const response = await sgMail.send(msg);
+        console.log(`Email sent successfully via SendGrid: ${response[0].statusCode}`);
+        return response;
     } catch (error) {
-        console.error('Nodemailer Error:', error.message);
-        // Log more details if it's an auth error
-        if (error.code === 'EAUTH') {
-            console.error('CRITICAL: Email authentication failed. Check your App Password in .env');
+        console.error('SendGrid Error:', error.message);
+
+        if (error.response) {
+            console.error('SendGrid Error Details:', error.response.body);
         }
+
+        // Catch common SendGrid errors
+        if (error.code === 401) {
+            console.error('CRITICAL: SendGrid Authentication failed. Check your SENDGRID_API_KEY in .env');
+        } else if (error.code === 403) {
+            console.error('CRITICAL: SendGrid Forbidden. Check if your sender (EMAIL_FROM) is verified.');
+        }
+
         throw error;
     }
 };
