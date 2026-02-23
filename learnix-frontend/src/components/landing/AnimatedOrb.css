@@ -252,87 +252,87 @@
     .orb-container {
         width: 100px;
         height: 100px;
-        top: 38%;
+        top: 45%;
+        /* Slightly lower to prevent overlap with header */
     }
 
     .glowing-orb {
-        width: 20px;
-        height: 20px;
-        box-shadow: 0 0 30px 15px rgba(180, 200, 255, 0.4), inset 0 0 8px 4px #ffffff;
+        width: 60px;
+        height: 60px;
+        box-shadow: 0 0 50px 25px rgba(180, 200, 255, 0.4), inset 0 0 12px 6px #ffffff;
     }
 
     .orbit-ring {
-        width: 260px;
-        height: 260px;
+        width: 340px;
+        height: 340px;
     }
 
     .orbit-ring-inner {
-        width: 70px;
-        /* Micro-ring for collision safety */
-        height: 70px;
+        width: 180px;
+        height: 180px;
     }
 
     .skill-icon {
-        width: 26px;
-        height: 26px;
-        font-size: 0.75rem;
+        width: 42px;
+        height: 42px;
+        font-size: 1.1rem;
     }
 
     .skill-icon-inner {
-        width: 18px;
-        height: 18px;
-        font-size: 0.6rem;
+        width: 34px;
+        height: 34px;
+        font-size: 0.9rem;
     }
 
-    /* Outer Ring offsets */
+    /* Outer Ring offsets (-(size/2)) */
     .item-1 {
-        top: -13px;
-        left: calc(50% - 13px);
+        top: -21px;
+        left: calc(50% - 21px);
     }
 
     .item-2 {
-        bottom: -13px;
-        left: calc(50% - 13px);
+        bottom: -21px;
+        left: calc(50% - 21px);
     }
 
     .item-3 {
-        left: -13px;
-        top: calc(50% - 13px);
+        left: -21px;
+        top: calc(50% - 21px);
     }
 
     .item-4 {
-        right: -13px;
-        top: calc(50% - 13px);
+        right: -21px;
+        top: calc(50% - 21px);
     }
 
     .item-5 {
-        top: 30px;
-        left: 30px;
+        top: 45px;
+        left: 45px;
     }
 
     .item-6 {
-        bottom: 30px;
-        right: 30px;
+        bottom: 45px;
+        right: 45px;
     }
 
-    /* Inner Ring offsets */
+    /* Inner Ring offsets (-(size/2)) */
     .inner-1 {
-        top: -9px;
-        left: calc(50% - 9px);
+        top: -17px;
+        left: calc(50% - 17px);
     }
 
     .inner-2 {
-        bottom: -9px;
-        left: calc(50% - 9px);
+        bottom: -17px;
+        left: calc(50% - 17px);
     }
 
     .inner-3 {
-        left: -9px;
-        top: calc(50% - 9px);
+        left: -17px;
+        top: calc(50% - 17px);
     }
 
     .inner-4 {
-        right: -9px;
-        top: calc(50% - 9px);
+        right: -17px;
+        top: calc(50% - 17px);
     }
 }
