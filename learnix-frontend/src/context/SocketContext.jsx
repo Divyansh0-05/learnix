@@ -2,7 +2,7 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 import io from 'socket.io-client';
 import { useAuth } from './AuthContext';
 import { toast } from 'react-hot-toast';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { FiMessageSquare } from 'react-icons/fi';
 
 const SocketContext = createContext();
@@ -25,6 +25,15 @@ export const SocketProvider = ({ children }) => {
     const activeMatchRef = React.useRef(null);
     const { user, isAuthenticated } = useAuth();
     const navigate = useNavigate();
+    const location = useLocation();
+    const locationPathRef = React.useRef(location.pathname);
+
+    useEffect(() => {
+        locationPathRef.current = location.pathname;
+        if (!location.pathname.startsWith('/chat')) {
+            setActiveMatchId(null);
+        }
+    }, [location.pathname]);
 
     const setActiveMatchId = (id) => {
         activeMatchRef.current = id;
@@ -134,7 +143,8 @@ export const SocketProvider = ({ children }) => {
                 const message = isDirect ? payload : payload.message;
                 const midStr = String(matchId);
                 const currentActive = activeMatchRef.current;
-                const isActive = currentActive && String(currentActive) === midStr;
+                const isViewingChat = locationPathRef.current.startsWith('/chat');
+                const isActive = isViewingChat && currentActive && String(currentActive) === midStr;
 
                 setMatches(prev => {
                     const exists = prev.some(conv => String(conv.matchId || conv._id) === midStr);
