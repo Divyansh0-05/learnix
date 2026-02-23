@@ -43,8 +43,16 @@ export const SocketProvider = ({ children }) => {
     useEffect(() => {
         if (isAuthenticated && user && !socket) {
             const token = localStorage.getItem('accessToken');
-            const SOCKET_URL = process.env.REACT_APP_SOCKET_URL || 'http://localhost:5001';
-            console.log(`[Socket] Attempting connection to: ${SOCKET_URL}`);
+
+            // Robust URL derivation for production
+            let SOCKET_URL = process.env.REACT_APP_SOCKET_URL;
+            if (!SOCKET_URL) {
+                const apiBase = process.env.REACT_APP_API_URL || 'http://localhost:5001/api/v1';
+                // Remove /api/v1 if it exists to get the server root for Socket.io
+                SOCKET_URL = apiBase.replace(/\/api\/v1\/?$/, '');
+            }
+
+            console.log(`[Socket] Connecting to: ${SOCKET_URL}`);
 
             const newSocket = io(SOCKET_URL, {
                 auth: { token },
