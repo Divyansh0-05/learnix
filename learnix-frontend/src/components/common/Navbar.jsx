@@ -25,12 +25,14 @@ export default function Navbar() {
 
     // On the home page: transparent always. On other pages: subtle dark.
     const navBg = isHome
-        ? (scrolled ? 'rgba(6,6,12,0.85)' : 'transparent')
-        : 'rgba(6,6,12,0.95)';
+        ? (scrolled ? 'rgba(6,6,12,0.92)' : 'transparent')
+        : 'rgba(6,6,12,0.96)';
 
-    const navBorder = isHome
-        ? (scrolled ? '1px solid rgba(255,255,255,0.05)' : 'none')
-        : '1px solid rgba(255,255,255,0.06)';
+    // For internal pages, we want the border and blur to be active from the start
+    // For Home, we want them to transition in on scroll.
+    const showSecondaryStyles = !isHome || scrolled;
+
+    const navBorder = showSecondaryStyles ? '1px solid rgba(255,255,255,0.03)' : '1px solid transparent';
 
     const linkColor = 'rgba(255,255,255,0.60)';
     const linkHover = '#ffffff';
@@ -61,8 +63,8 @@ export default function Navbar() {
                 right: 0,
                 zIndex: 100,
                 background: navBg,
-                backdropFilter: scrolled ? 'blur(24px)' : 'none',
-                WebkitBackdropFilter: scrolled ? 'blur(24px)' : 'none',
+                backdropFilter: showSecondaryStyles ? 'blur(24px)' : 'none',
+                WebkitBackdropFilter: showSecondaryStyles ? 'blur(24px)' : 'none',
                 borderBottom: navBorder,
                 transition: 'all 0.3s ease',
             }}>
@@ -165,7 +167,7 @@ export default function Navbar() {
             </nav>
 
             {/* Mobile Bottom Navigation Bar (App-like Tab Bar) */}
-            <nav className="md:hidden fixed bottom-0 left-0 right-0 z-[100] bg-[#06060c]/90 backdrop-blur-xl border-t border-white/10 pb-[env(safe-area-inset-bottom)]">
+            <nav className="md:hidden fixed bottom-0 left-0 right-0 z-[100] bg-[#06060c]/90 backdrop-blur-xl border-t border-white/5 pb-[env(safe-area-inset-bottom)]">
                 <div className="flex justify-around items-center h-16 px-2">
                     {user ? (
                         <>
