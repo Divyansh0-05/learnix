@@ -220,6 +220,11 @@ exports.getMyMatches = async (req, res, next) => {
         // Get last message for each match
         const matchesWithLastMessage = await Promise.all(
             matches.map(async (match) => {
+                if (!match.user1 || !match.user2) {
+                    logger.warn(`Skipping match ${match._id} due to missing user reference`);
+                    return null;
+                }
+
                 const lastMessage = await Chat.findOne({ match: match._id })
                     .sort('-createdAt')
                     .populate('sender', 'name avatar')
@@ -255,7 +260,7 @@ exports.getMyMatches = async (req, res, next) => {
         res.status(200).json({
             success: true,
             data: {
-                matches: matchesWithLastMessage,
+                matches: matchesWithLastMessage.filter(Boolean),
                 pagination: {
                     currentPage: parseInt(page),
                     totalPages: Math.ceil(total / parseInt(limit)),

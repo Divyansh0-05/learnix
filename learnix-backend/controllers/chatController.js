@@ -309,6 +309,11 @@ exports.getChatList = async (req, res, next) => {
 
         const chatList = await Promise.all(
             matches.map(async (match) => {
+                if (!match.user1 || !match.user2) {
+                    logger.warn(`Skipping chat list match ${match._id} due to missing user reference`);
+                    return null;
+                }
+
                 const otherUser = match.user1._id.toString() === userId.toString()
                     ? match.user2
                     : match.user1;
@@ -350,7 +355,7 @@ exports.getChatList = async (req, res, next) => {
 
         res.status(200).json({
             success: true,
-            data: { chatList }
+            data: { chatList: chatList.filter(Boolean) }
         });
     } catch (error) {
         next(error);
