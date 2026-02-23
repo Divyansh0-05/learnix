@@ -343,6 +343,7 @@ exports.forgotPassword = async (req, res, next) => {
                 message: 'Password reset email sent'
             });
         } catch (error) {
+            logger.error('Forgot Password Email Error:', error);
             user.resetPasswordToken = undefined;
             user.resetPasswordExpires = undefined;
             await user.save({ validateBeforeSave: false });
