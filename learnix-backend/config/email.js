@@ -36,6 +36,8 @@ const sendEmail = async (options) => {
             user: process.env.EMAIL_FROM,
             pass: process.env.EMAIL_PASSWORD,
         },
+        // Force IPv4 to avoid ENETUNREACH errors with IPv6 on some cloud providers
+        family: 4,
         // Add a timeout to avoid long waits
         connectionTimeout: 10000, // 10 seconds
     });
