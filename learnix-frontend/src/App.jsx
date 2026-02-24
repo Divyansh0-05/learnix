@@ -31,6 +31,7 @@ import Chat from './pages/Chat';
 import Skills from './pages/Skills';
 import Matches from './pages/Matches';
 import Profile from './pages/Profile';
+import ScrollToTop from './components/common/ScrollToTop';
 
 // Hide footer on the landing page and chat pages
 function Layout({ children }) {
@@ -38,13 +39,6 @@ function Layout({ children }) {
     const isHome = location.pathname === '/';
     const isChat = location.pathname.startsWith('/chat');
     const isAuthPage = ['/login', '/register', '/forgot-password', '/reset-password', '/verify-email'].some(path => location.pathname.startsWith(path));
-
-    React.useEffect(() => {
-        // Synchronous immediate scroll to top on route change
-        window.scrollTo(0, 0);
-        document.documentElement.scrollTop = 0;
-        document.body.scrollTop = 0;
-    }, [location.pathname]);
 
     return (
         <div style={{ width: '100%', position: 'relative' }}>
@@ -59,7 +53,7 @@ function App() {
     return (
         <HelmetProvider>
             <Router>
-
+                <ScrollToTop />
                 <AuthProvider>
                     <SocketProvider>
                         <Layout>
