@@ -61,7 +61,6 @@ learnix/
 
 ## 🌐 Deployment
 
-The application is configured for deployment on **Render**. For detailed instructions, see the [Deployment Guide](C:\Users\ds109\.gemini\antigravity\brain\b44f3ae5-e4c6-4122-8444-97f3eb6d35dc\deployment_guide.md).
-
+The application is configured for deployment on **Render**.
 ---
 Built with ❤️ by the Learnix Team.
